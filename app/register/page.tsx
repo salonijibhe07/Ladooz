@@ -100,13 +100,16 @@ export default function RegisterPage() {
             />
           </div>
 
-          <button
-            disabled={loading}
-            className="w-full px-4 py-2 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 disabled:opacity-60 transition"
-            type="submit"
-          >
-            {loading ? "Creating account..." : "Register"}
-          </button>
+          <div className="flex justify-center">
+            <button
+              disabled={loading}
+              type="submit"
+              aria-label="Create account"
+              className="w-44 h-11 rounded-full bg-[#C8A24D] text-white font-semibold hover:bg-[#B8963D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A24D]/50 disabled:opacity-60 transition shadow-md border border-[#B8963D]/20 inline-flex items-center justify-center"
+            >
+              {loading ? "Creating account..." : "Register"}
+            </button>
+          </div>
         </form>
 
         <div className="mt-4 text-sm text-gray-600">

@@ -7,7 +7,7 @@ export type AuthTokenPayload = {
   role: "USER" | "ADMIN";
 };
 
-function getJwtSecret() {
+export function getJwtSecret() {
   const secret = process.env.NEXTAUTH_SECRET;
   if (!secret) {
     // Fail closed in production; in dev allow easier setup.

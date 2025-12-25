@@ -82,14 +82,17 @@ export default function LoginClient() {
             />
           </div>
 
-          {/* Use theme color for button */}
-          <button
-            disabled={loading}
-            type="submit"
-            className="w-full px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600 disabled:opacity-60 transition"
-          >
-            {loading ? "Signing in..." : "Login"}
-          </button>
+          {/* Submit button - explicitly styled to avoid any global overrides causing invisibility */}
+          <div className="flex justify-center">
+            <button
+              disabled={loading}
+              type="submit"
+              aria-label="Sign in"
+              className="w-44 h-11 rounded-full bg-[#C8A24D] text-white font-semibold hover:bg-[#B8963D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A24D]/50 disabled:opacity-60 transition shadow-md border border-[#B8963D]/20 inline-flex items-center justify-center"
+            >
+              {loading ? "Signing in..." : "Login"}
+            </button>
+          </div>
         </form>
 
         <div className="mt-4 text-sm text-gray-600">

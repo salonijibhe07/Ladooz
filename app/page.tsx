@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import Link from "next/link";
 import StoreHeader from "./components/store/StoreHeader";
 import StoreFooter from "./components/store/StoreFooter";
@@ -29,6 +29,13 @@ type Banner = {
 
 /* ---------------- PAGE ---------------- */
 export default function HomePage() {
+  const catScrollRef = useRef<HTMLDivElement | null>(null);
+  const scrollBy = (dx: number) => {
+    const el = catScrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dx, behavior: 'smooth' });
+  };
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
@@ -116,19 +123,26 @@ export default function HomePage() {
 
 
 
+      
+
       {/* ================= CATEGORIES ================= */}
       <section className="container-max py-16">
-        <h2 className="text-2xl font-serif font-bold text-[#4A3A28] mb-10 text-center">
+        <h2 className="text-2xl font-serif font-bold text-[#4A3A28] mb-6 text-center">
           Explore Our Range
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
           {categories.map((category) => (
             <Link
               key={category.id}
               href={`/products?category=${category.slug}`}
-              className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition"
+              className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
             >
-              <p className="font-semibold text-[#4A3A28] text-lg">{category.name}</p>
+              <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+              <div className="p-5 text-center">
+                <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
+                  {category.name}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
@@ -157,9 +171,11 @@ export default function HomePage() {
               <div className="p-6 text-center">
                 <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>
                 <p className="font-medium mb-5">₹{product.price} / kg</p>
-                <button className="w-full bg-[#C8A24D] hover:bg-[#B8963D] text-white py-2 rounded-full font-medium transition">
-                  Add to Cart
-                </button>
+                <div className="flex justify-center">
+                  <button className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition">
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             </div>
           ))}

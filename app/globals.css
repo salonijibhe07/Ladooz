@@ -57,6 +57,15 @@
   }
 }
 
+/* Marquee taglines */
+.marquee { position: relative; overflow: hidden; }
+.marquee-track { display: inline-flex; gap: 1rem; align-items: center; white-space: nowrap; will-change: transform; animation: marquee 28s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @layer utilities {
   .container-max {
     @apply max-w-7xl mx-auto px-4;

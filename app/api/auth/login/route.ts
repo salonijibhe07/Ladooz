@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { getJwtSecret } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,17 +29,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const secret = process.env.NEXTAUTH_SECRET;
-    if (!secret) {
-      return NextResponse.json(
-        { error: "Server misconfigured" },
-        { status: 500 }
-      );
-    }
-
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      secret,
+      getJwtSecret(),
       { expiresIn: "7d" }
     );
 
