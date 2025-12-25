@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* Modern storefront base (light, clean, Flipkart-ish) */
+:root {
+  --background: #f5f7fb;
+  --foreground: #0f172a;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-[#f5f7fb] text-slate-900 antialiased;
+  }
+
+  a {
+    @apply text-inherit;
+  }
+
+  /* Global button standardization to match "Add Category" button */
+  /* Default button style; exclude .btn-plain which is used for icon-only and action buttons */
+  button:not(.btn-plain) {
+    background-color: #C8A24D !important; /* gold */
+    color: #ffffff !important;
+    padding: 0.75rem 1.5rem !important; /* px-6 py-3 */
+    border-radius: 9999px !important; /* rounded-full */
+    font-weight: 600 !important; /* font-semibold */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* gap-2 */
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+  }
+  button:not(.btn-plain):hover {
+    background-color: #B8963D !important; /* hover */
+  }
+  button:not(.btn-plain):focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(200, 162, 77, 0.5), 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Plain buttons for action icons, links, etc. */
+  .btn-plain {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    gap: 0 !important;
+    font-weight: 500 !important;
+  }
+}
+
+@layer utilities {
+  .container-max {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  .card {
+    @apply bg-white border border-slate-200/70 rounded-xl shadow-sm;
+  }
+
+  .card-hover {
+    @apply transition hover:shadow-md hover:-translate-y-[1px];
+  }
+
+  .muted {
+    @apply text-slate-700;
+  }
+}
