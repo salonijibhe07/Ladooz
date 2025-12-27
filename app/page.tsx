@@ -39,6 +39,8 @@ export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
+  const [adding, setAdding] = useState<Record<string, boolean>>({});
+  const [cartMsg, setCartMsg] = useState<Record<string, string | null>>({});
 
   useEffect(() => {
     const load = async () => {
@@ -172,9 +174,18 @@ export default function HomePage() {
                 <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>
                 <p className="font-medium mb-5">₹{product.price} / kg</p>
                 <div className="flex justify-center">
-                  <button className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition">
-                    Add to Cart
+                  <button
+                    className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={!!adding[product.id]}
+                    onClick={() => {
+                      window.location.assign(`/products/${product.id}`);
+                    }}
+                  >
+                    {adding[product.id] ? "Buying..." : "Buy Now"}
                   </button>
+                  {cartMsg[product.id] && (
+                    <div className="text-xs mt-2 text-[#4A3A28]" role="status">{cartMsg[product.id]}</div>
+                  )}
                 </div>
               </div>
             </div>

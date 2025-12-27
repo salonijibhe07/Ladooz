@@ -39,6 +39,8 @@ export default function ProductDetailPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [cartStatus, setCartStatus] = useState<string | null>(null);
 
   const fetchProduct = async () => {
     try {
@@ -57,15 +59,33 @@ export default function ProductDetailPage() {
   }, [params.id]);
 
   const addToCart = async () => {
+    console.log("[AddToCart] clicked", { productId: product?.id, quantity });
+    setCartStatus(null);
+    if (!product?.id) return;
+    setAddingToCart(true);
     try {
-      await fetch("/api/cart", {
+      const res = await fetch("/api/cart", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product?.id, quantity }),
+        body: JSON.stringify({ productId: product.id, quantity }),
       });
-      alert("Added to cart!");
-    } catch {
-      // ignore
+      if (res.status === 401) {
+        setCartStatus("Please login to add items to your cart.");
+        window.location.assign(`/login?redirect=/products/${params.id}`);
+        return;
+      }
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.error("[AddToCart] server error", data);
+        setCartStatus((data?.error as string) || "Failed to add to cart. Please try again.");
+        return;
+      }
+      setCartStatus("Added to cart!");
+    } catch (e) {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -169,36 +189,88 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Quantity & Actions */}
-            <div className="mb-6">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="font-semibold">Quantity:</span>
-                <div className="flex items-center border rounded">
+            {/* Product Options */}
+            <div className="mb-6 space-y-4">
+              {/* Size selector */}
+              <div>
+                <div className="mb-2 font-semibold">Size</div>
+                <div className="flex gap-2">
                   <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-2 hover:bg-gray-100"
+                    className="px-3 py-2 rounded-lg border-2 border-primary-500 text-primary-600 font-medium bg-primary-50"
+                    aria-pressed="true"
                   >
-                    -
-                  </button>
-                  <span className="px-4 py-2 font-semibold">{quantity}</span>
-                  <button
-                    onClick={() =>
-                      setQuantity(Math.min(product.stock, quantity + 1))
-                    }
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    +
+                    Box of 15 (500 g)
                   </button>
                 </div>
-                <span className="text-sm text-gray-600">
-                  ({product.stock} available)
-                </span>
               </div>
 
+              {/* Quantity selector */}
+              <div>
+                <label className="mb-2 block font-semibold" htmlFor="quantity-select">Quantity</label>
+                <div className="flex items-center gap-3">
+                  <select
+                    id="quantity-select"
+                    value={quantity}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                  >
+                    {Array.from({ length: Math.min(10, Math.max(1, product.stock)) }, (_, i) => i + 1).map((q) => (
+                      <option key={q} value={q}>{q}</option>
+                    ))}
+                  </select>
+                  <span className="text-sm text-gray-600">({product.stock} available)</span>
+                </div>
+              </div>
+
+              {/* Offer highlights */}
+              <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 space-y-2">
+                <div className="text-sm font-medium">Offers</div>
+                <ul className="text-sm text-gray-700 space-y-1 list-disc pl-5">
+                  <li>Free Delivery in Pune</li>
+                  <li>Outside Pune: Free delivery on orders above ₹____</li>
+                  <li>Get 2 kg FREE on bulk orders</li>
+                </ul>
+              </div>
+
+              {/* Actions */}
               <div className="flex gap-4">
                 <button
+                  onClick={async () => {
+                    if (!product?.id) return;
+                    setAddingToCart(true);
+                    try {
+                      const res = await fetch("/api/cart", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ productId: product.id, quantity }),
+                      });
+                      if (res.status === 401) {
+                        alert("Please login to continue.");
+                        window.location.assign(`/login?redirect=/products/${params.id}`);
+                        return;
+                      }
+                      if (!res.ok) {
+                        const data = await res.json().catch(() => ({}));
+                        alert(data?.error || "Failed. Please try again.");
+                        return;
+                      }
+                      window.location.assign("/cart");
+                    } catch {
+                      alert("Something went wrong. Please try again.");
+                    } finally {
+                      setAddingToCart(false);
+                    }
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={addingToCart}
+                >
+                  BUY NOW
+                </button>
+
+                <button
                   onClick={addToCart}
-                  className="flex-1 flex items-center justify-center gap-2 bg-primary-500 text-white py-3 rounded-lg font-semibold hover:bg-primary-600 transition"
+                  className="flex-1 flex items-center justify-center gap-2 border-2 border-primary-600 text-primary-700 py-3 rounded-lg font-semibold hover:bg-primary-50 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={addingToCart}
                 >
                   <ShoppingCart size={20} />
                   ADD TO CART
@@ -214,7 +286,7 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Delivery Info */}
+            {/* Policies */}
             <div className="border-t pt-6">
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm">

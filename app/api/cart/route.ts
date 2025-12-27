@@ -55,6 +55,14 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ cartItem }, { status: 201 });
   } catch (error) {
+    if (
+      error instanceof Error &&
+      (error.message.includes("Not authenticated") ||
+        error.message.includes("Invalid token") ||
+        error.message.includes("Forbidden"))
+    ) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json(
       { error: "Failed to add to cart" },
       { status: 500 }
