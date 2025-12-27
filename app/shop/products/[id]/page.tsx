@@ -275,38 +275,7 @@ export default function ProductDetailPage() {
 
               {/* Actions */}
               <div className="flex gap-4">
-                <button
-                  onClick={async () => {
-                    if (!product?.id) return;
-                    setAddingToCart(true);
-                    try {
-                      const res = await fetch("/api/cart", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ productId: product.id, quantity }),
-                      });
-                      if (res.status === 401) {
-                        alert("Please login to continue.");
-                        window.location.assign(`/login?redirect=/shop/products/${params.id}`);
-                        return;
-                      }
-                      if (!res.ok) {
-                        const data = await res.json().catch(() => ({}));
-                        alert(data?.error || "Failed. Please try again.");
-                        return;
-                      }
-                      window.location.assign("/cart");
-                    } catch {
-                      alert("Something went wrong. Please try again.");
-                    } finally {
-                      setAddingToCart(false);
-                    }
-                  }}
-                  className="flex-1 flex items-center justify-center gap-2 bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
-                  disabled={addingToCart}
-                >
-                  BUY NOW
-                </button>
+                
                 <button
                   onClick={addToCart}
                   className="flex-1 flex items-center justify-center gap-2 border-2 border-orange-600 text-orange-700 py-3 rounded-lg font-semibold hover:bg-orange-50 transition disabled:opacity-60 disabled:cursor-not-allowed"
