@@ -72,11 +72,6 @@ export default function StoreFooter() {
                   Terms & Conditions
                 </Link>
               </li>
-              <li>
-                <Link href="/policy" className="hover:text-white transition">
-                  Return Policy
-                </Link>
-              </li>
             </ul>
           </div>
 

@@ -123,6 +123,17 @@ export default function ShopHomepage() {
         </div>
       </header>
 
+      {/* Policy Notice */}
+      <section className="bg-yellow-50 border-y border-yellow-200">
+        <div className="max-w-7xl mx-auto px-4 py-2 text-sm text-yellow-900 text-center">
+          <span className="font-medium">Shipping:</span> Free delivery for Pune · Outside Pune free for orders above 2 kg
+          <span className="mx-2">|</span>
+          <span className="font-medium">Returns:</span> No Return Policy
+          <span className="mx-2">|</span>
+          <span className="font-medium">Warranty:</span> No Warranty
+        </div>
+      </section>
+
       {/* Banner Section */}
       <section className="bg-white mb-4">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -234,7 +245,6 @@ export default function ShopHomepage() {
             <div>
               <h3 className="text-white font-semibold mb-4">POLICY</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/policy" className="hover:text-white">Return Policy</Link></li>
                 <li><Link href="/terms" className="hover:text-white">Terms of Use</Link></li>
                 <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
               </ul>

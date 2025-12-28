@@ -79,7 +79,15 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold mb-4 text-gray-900">Shopping Cart</h1>
+        <div className="mb-8 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Shipping (Pune):</strong> Free delivery for Pune.</li>
+            <li><strong>Shipping (Outside Pune):</strong> Free delivery for orders above 2 kg.</li>
+            <li><strong>Returns:</strong> No Return Policy.</li>
+            <li><strong>Warranty:</strong> No Warranty.</li>
+          </ul>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">

@@ -89,16 +89,66 @@ export default function ProductDetailPage() {
     }
   };
 
-  const addToWishlist = async () => {
+  const [wishlisted, setWishlisted] = useState(false);
+  const [checkingWishlist, setCheckingWishlist] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      if (!params.id) return;
+      try {
+        const res = await fetch("/api/wishlist", { credentials: "include" });
+        if (!res.ok) return; // ignore auth errors; user might be logged out
+        const data = await res.json().catch(() => ({}));
+        const items: { wishlistItems?: { productId: string }[] } = data || {};
+        const has = !!items.wishlistItems?.some((it) => it.productId === params.id);
+        if (active) setWishlisted(has);
+      } catch {}
+      finally {
+        if (active) setCheckingWishlist(false);
+      }
+    })();
+    return () => { active = false; };
+  }, [params.id]);
+
+  const toggleWishlist = async () => {
+    if (!product?.id) return;
     try {
-      await fetch("/api/wishlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product?.id }),
-      });
-      alert("Added to wishlist!");
+      if (!wishlisted) {
+        const res = await fetch("/api/wishlist", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId: product.id }),
+        });
+        if (res.status === 401) {
+          window.location.assign(`/login?redirect=/products/${params.id}`);
+          return;
+        }
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          alert((data?.error as string) || "Failed to add to wishlist");
+          return;
+        }
+        setWishlisted(true);
+      } else {
+        const res = await fetch(`/api/wishlist?productId=${product.id}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+        if (res.status === 401) {
+          window.location.assign(`/login?redirect=/products/${params.id}`);
+          return;
+        }
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          alert((data?.error as string) || "Failed to remove from wishlist");
+          return;
+        }
+        setWishlisted(false);
+      }
     } catch {
-      // ignore
+      alert("Something went wrong. Please try again.");
     }
   };
 
@@ -224,12 +274,6 @@ export default function ProductDetailPage() {
 
               {/* Offer highlights */}
               <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 space-y-2">
-                <div className="text-sm font-medium">Offers</div>
-                <ul className="text-sm text-gray-700 space-y-1 list-disc pl-5">
-                  <li>Free Delivery in Pune</li>
-                  <li>Outside Pune: Free delivery on orders above ₹____</li>
-                  <li>Get 2 kg FREE on bulk orders</li>
-                </ul>
               </div>
 
               {/* Actions */}
@@ -246,11 +290,11 @@ export default function ProductDetailPage() {
                 </button>
 
                 <button
-                  onClick={addToWishlist}
-                  className="flex items-center justify-center gap-2 border-2 border-gray-300 py-3 px-6 rounded-lg font-semibold hover:border-primary-500 hover:text-primary-500 transition"
-                  aria-label="Add to wishlist"
+                  onClick={toggleWishlist}
+                  className={`flex items-center justify-center gap-2 border-2 py-3 px-6 rounded-lg font-semibold transition ${wishlisted ? "border-red-200 text-red-600 bg-red-50" : "border-gray-300 hover:border-red-400 hover:text-red-500"}`}
+                  aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
                 >
-                  <Heart size={20} />
+                  <Heart size={20} className={wishlisted ? "text-red-600" : undefined} fill={wishlisted ? "currentColor" : "none"} />
                 </button>
               </div>
             </div>
@@ -260,15 +304,15 @@ export default function ProductDetailPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm">
                   <Truck className="text-gray-600" size={20} />
-                  <span>Free delivery on orders above ₹500</span>
+                  <span>Free delivery for Pune</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <RotateCcw className="text-gray-600" size={20} />
-                  <span>7 Days Return Policy</span>
+                  <span>No Return Policy</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <Shield className="text-gray-600" size={20} />
-                  <span>1 Year Warranty</span>
+                  <span>No Warranty</span>
                 </div>
               </div>
             </div>
