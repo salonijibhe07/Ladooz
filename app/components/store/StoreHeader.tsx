@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Heart, Search, ShoppingCart, User, LogOut } from "lucide-react";
+import { LuHeart, LuSearch, LuShoppingCart, LuUser, LuLogOut } from "react-icons/lu";
 
 export type StoreHeaderCategory = {
   id: string;
@@ -94,7 +94,7 @@ export default function StoreHeader({
                 className="absolute right-4 top-2.5 text-[#6B563A] hover:text-[#C8A24D]"
                 aria-label="Search"
               >
-                <Search size={18} />
+                <LuSearch size={18} />
               </Link>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function StoreHeader({
               href="/wishlist"
               className="h-10 px-4 rounded-full inline-flex items-center gap-2 hover:bg-[#F3EBD9] text-sm font-medium"
             >
-              <Heart size={18} />
+              <LuHeart size={18} />
               <span className="hidden sm:inline">Wishlist</span>
             </Link>
 
@@ -115,7 +115,7 @@ export default function StoreHeader({
               href="/cart"
               className="h-10 px-4 rounded-full inline-flex items-center gap-2 bg-[#C8A24D] hover:bg-[#B8963D] text-white text-sm font-medium"
             >
-              <ShoppingCart size={18} />
+              <LuShoppingCart size={18} />
               <span className="hidden sm:inline">Cart</span>
             </Link>
 
@@ -128,7 +128,7 @@ export default function StoreHeader({
                   aria-haspopup="menu"
                   aria-expanded={menuOpen}
                 >
-                  <User size={18} />
+                  <LuUser size={18} />
                   <span className="truncate max-w-[10rem]">{userName}</span>
                 </button>
                 {menuOpen && (
@@ -149,7 +149,7 @@ export default function StoreHeader({
                       }}
                       className="px-3 py-1.5 text-xs hover:bg-[#F3EBD9] text-[#4A3A28] rounded inline-flex items-center gap-1.5"
                     >
-                      <LogOut size={14} /> Logout
+                      <LuLogOut size={14} /> Logout
                     </button>
                     </div>
                   </div>
@@ -160,7 +160,7 @@ export default function StoreHeader({
                 href="/login"
                 className="h-10 px-4 rounded-full inline-flex items-center gap-2 hover:bg-[#F3EBD9] text-sm font-medium"
               >
-                <User size={18} />
+                <LuUser size={18} />
                 <span className="hidden sm:inline">Account</span>
               </Link>
             )}

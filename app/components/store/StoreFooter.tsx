@@ -49,7 +49,7 @@ export default function StoreFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/help" className="hover:text-white transition">
+                <Link href="/FAQ" className="hover:text-white transition">
                   FAQs
                 </Link>
               </li>
