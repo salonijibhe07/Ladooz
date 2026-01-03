@@ -21,8 +21,8 @@ export default function StoreFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/about#quality" className="hover:text-white transition">
-                  Quality Promise
+                <Link href="/FAQ" className="hover:text-white transition">
+                  FAQs
                 </Link>
               </li>
               <li>
@@ -33,29 +33,7 @@ export default function StoreFooter() {
             </ul>
           </div>
 
-          {/* HELP */}
-          <div>
-            <h3 className="text-[#C8A24D] font-serif font-semibold mb-4 tracking-wide">
-              CUSTOMER CARE
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/help" className="hover:text-white transition">
-                  Shipping & Delivery
-                </Link>
-              </li>
-              <li>
-                <Link href="/help" className="hover:text-white transition">
-                  Returns & Refunds
-                </Link>
-              </li>
-              <li>
-                <Link href="/FAQ" className="hover:text-white transition">
-                  FAQs
-                </Link>
-              </li>
-            </ul>
-          </div>
+         
 
           {/* POLICY */}
           <div>
@@ -93,10 +71,32 @@ export default function StoreFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition">
+                <Link href="https://wa.me/9881902097" className="hover:text-white transition">
                   WhatsApp
                 </Link>
               </li>
+            </ul>
+          </div>
+
+
+          {/* SOCIAL */}
+          <div>
+            <h3 className="text-[#C8A24D] font-serif font-semibold mb-4 tracking-wide">
+              Ladoozi
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="#" className="hover:text-white transition">
+                  Thanks for choosing Ladoozi !
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white transition">
+                  Follow us on Social Media.
+                </Link>
+              </li>
+              
+              
             </ul>
           </div>
         </div>
