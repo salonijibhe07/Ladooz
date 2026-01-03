@@ -5,7 +5,7 @@
 import { useEffect, useState, type ElementType } from "react";
 import StoreHeader, { type StoreHeaderCategory } from "../components/store/StoreHeader";
 import StoreFooter from "../components/store/StoreFooter";
-import { LuChevronDown, LuSparkles, LuHeart, LuShield, LuPackage, LuSearch } from "react-icons/lu";
+import { LuPlus, LuMinus, LuSparkles, LuHeart, LuShield, LuPackage, LuSearch } from "react-icons/lu";
 
 type FAQItem = { q: string; a: string };
 type FAQSection = { section: string; icon: ElementType; gradient: string; items: FAQItem[] };
@@ -55,7 +55,7 @@ const faqs: FAQSection[] = [
 ];
 
 export default function FAQPage() {
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>("0-0");
   const [searchTerm, setSearchTerm] = useState("");
   const [categories, setCategories] = useState<StoreHeaderCategory[]>([]);
 
@@ -168,7 +168,7 @@ export default function FAQPage() {
                   return (
                     <div 
                       key={key} 
-                      className={`group relative rounded-2xl border ${isOpen ? 'border-amber-200 ring-1 ring-amber-100' : 'border-gray-200'} overflow-hidden transition-all hover:border-amber-200 hover:shadow-md shadow-sm hover:-translate-y-[1px]`}
+                      className={`rounded-2xl border ${isOpen ? 'border-amber-300' : 'border-gray-200'} bg-white shadow-md hover:shadow-lg transition`}
                     >
                       <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[linear-gradient(90deg,rgba(248,196,28,0.10),rgba(244,114,182,0.08),rgba(251,146,60,0.10))] opacity-0 group-hover:opacity-100 transition-opacity" />
                       <div className={`absolute left-0 top-0 h-full w-[3px] bg-gradient-to-b from-amber-400 to-orange-400 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
@@ -176,22 +176,31 @@ export default function FAQPage() {
                         onClick={() => setOpen(isOpen ? null : key)}
                         aria-expanded={isOpen}
                         aria-controls={`faq-panel-${key}`}
-                        className="btn-plain w-full flex justify-between items-start gap-4 px-6 md:px-7 py-6 md:py-7 text-left bg-transparent hover:bg-transparent transition-colors rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                        className="btn-plain w-full flex justify-between items-start gap-5 px-6 sm:px-7 md:px-8 py-6 sm:py-7 md:py-8 text-left bg-transparent hover:bg-transparent transition-colors rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                       >
-                        <div className="flex items-start gap-3 pr-4">
-                          <span className={`${isOpen ? 'bg-amber-500' : 'bg-amber-300 group-hover:bg-amber-400'} mt-2 h-2 w-2 rounded-full transition-colors`} />
+                        <div className="flex items-start gap-3 pr-2">
+                          <span className="mt-1 inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">
+                            {idx + 1}
+                          </span>
                           <span className="font-semibold text-gray-900 text-base md:text-lg leading-snug">
-                          {faq.q}
-                        </span>
-                       </div>
-                       <span className={`inline-flex items-center justify-center rounded-full transition-colors transition-transform text-amber-500 ${isOpen ? 'bg-amber-50 rotate-180' : 'group-hover:bg-amber-50'} p-1`}>
-                          <LuChevronDown size={20} />
+                            {faq.q}
+                          </span>
+                        </div>
+                       <span className="inline-flex items-center justify-center rounded-full text-amber-600 p-1">
+                          {isOpen ? <LuMinus size={20} /> : <LuPlus size={20} />}
                         </span>
                       </button>
                       
-                      {isOpen && (
-                        <div id={`faq-panel-${key}`} className="px-6 md:px-7 py-5 md:py-6 bg-transparent border-t border-gray-100">
-                          <p className="text-gray-700 leading-relaxed">
+                      <div id={`faq-panel-${key}`} aria-hidden={!isOpen} className={`px-6 sm:px-7 md:px-8 bg-transparent border-t border-gray-100 overflow-hidden transition-[max-height] duration-300 ${isOpen ? 'max-h-[34rem] py-5 sm:py-6 md:py-7' : 'max-h-0 py-0'}`}>
+                        <p className="text-gray-700 text-base leading-7">
+                          {faq.a}
+                        </p>
+                      </div>
+                      {/* end animated panel */}
+                      {/* remove the conditional wrapper below if present */}
+                      {false && (
+                        <div id={`faq-panel-${key}`} className="px-5 sm:px-6 md:px-7 py-4 sm:py-5 md:py-6 bg-transparent border-t border-gray-100">
+                          <p className="text-gray-700 text-base leading-7">
                             {faq.a}
                           </p>
                         </div>

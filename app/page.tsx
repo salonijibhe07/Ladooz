@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import Link from "next/link";
 import StoreHeader from "./components/store/StoreHeader";
 import StoreFooter from "./components/store/StoreFooter";
+import { FaHome, FaShieldAlt, FaGift, FaTruck } from "react-icons/fa";
+import { Dumbbell, Wheat, Feather } from "lucide-react";
 
 /* ---------------- TYPES ---------------- */
 type Product = {
@@ -41,6 +43,13 @@ export default function HomePage() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [adding, setAdding] = useState<Record<string, boolean>>({});
   const [cartMsg, setCartMsg] = useState<Record<string, string | null>>({});
+
+  // Benefits icons data (typed to avoid union-inferred tuple issues)
+  const benefitItems: { title: string; desc: string; Icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
+    { title: "Dink Ladoo", desc: "Strength, stamina & seasonal immunity with edible gum (dink).", Icon: Dumbbell },
+    { title: "Besan Ladoo", desc: "Balanced energy, better digestion and healthy fats for everyday nourishment.", Icon: Wheat },
+    { title: "Ravanaral Ladoo", desc: "Light, aromatic and easy to digest – a gentle treat for any time of day.", Icon: Feather },
+  ];
 
   useEffect(() => {
     const load = async () => {
@@ -193,27 +202,301 @@ export default function HomePage() {
         </div>
       </section>
 
+          {/* ================= FESTIVE GIFTING ================= */}
+{/* ================= FESTIVE GIFTING – PREMIUM EXPERIENCE ================= */}
+<section className="relative py-28 bg-gradient-to-b from-[#FBF8F3] via-[#F7F2EA] to-[#FBF8F3] overflow-hidden">
+  
+  {/* soft festive background */}
+  <div className="absolute inset-0 bg-[url('/patterns/indian-swirls.svg')] opacity-[0.05]" />
+
+  <div className="container-max relative">
+    
+    {/* HERO STORY */}
+    <div className="text-center max-w-5xl mx-auto mb-20">
+      <span className="inline-block mb-4 px-5 py-1 rounded-full bg-[#E6D3A3] text-[#4A3A28] text-sm font-medium tracking-wide">
+        FESTIVE GIFTING BY LADOOZI
+      </span>
+
+      <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#4A3A28] mb-6">
+        When Festivals Feel Like Home
+      </h2>
+
+      <p className="text-lg leading-relaxed">
+        In India, festivals are not just dates on a calendar — they are emotions.
+        LADOOZI brings you thoughtfully handcrafted laddoos made the traditional
+        way, turning every celebration into a memory worth sharing.
+      </p>
+    </div>
+
+    {/* FESTIVAL JOURNEY */}
+    <div className="grid md:grid-cols-3 gap-10 mb-24">
+      
+      {/* DIWALI */}
+      <div className="relative bg-white rounded-[2.5rem] p-9 shadow-md hover:shadow-xl transition">
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#C8A24D] text-white inline-flex items-center justify-center h-9 md:h-10 px-7 rounded-full text-sm md:text-base shadow-md whitespace-nowrap leading-none">
+          DIWALI
+        </div>
+
+        <h3 className="font-serif font-bold text-xl md:text-2xl text-[#4A3A28] mb-4 mt-3">
+          A Box Full of Light & Warmth
+        </h3>
+
+        <p className="mb-5">
+          Light up Diwali with laddoos made using pure ingredients, elegant
+          festive packaging, and the richness of tradition — perfect for homes,
+          teams, and corporate celebrations.
+        </p>
+
+        <ul className="space-y-2 text-sm">
+          <li>• Freshly handcrafted laddoos</li>
+          <li>• Premium festive packaging</li>
+          <li>• Ideal for personal & corporate gifting</li>
+          <li>• Delivery across India</li>
+        </ul>
+      </div>
+
+      {/* RAKSHA BANDHAN */}
+      <div className="relative bg-white rounded-[2.5rem] p-9 shadow-md hover:shadow-xl transition">
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#C8A24D] text-white inline-flex items-center justify-center h-9 md:h-10 px-7 rounded-full text-sm md:text-base shadow-md whitespace-nowrap leading-none">
+          RAKSHA BANDHAN
+        </div>
+
+        <h3 className="font-serif font-bold text-xl md:text-2xl text-[#4A3A28] mb-4 mt-3">
+          Sweetness That Travels Distance
+        </h3>
+
+        <p className="mb-5">
+          Celebrate the bond of love with laddoos that speak from the heart.
+          LADOOZI Raksha Bandhan gift boxes are designed to make siblings feel
+          close, even miles apart.
+        </p>
+
+        <ul className="space-y-2 text-sm">
+          <li>• Brother–sister gifting</li>
+          <li>• Family celebrations</li>
+          <li>• Long-distance surprises</li>
+        </ul>
+      </div>
+
+      {/* GANESH */}
+      <div className="relative bg-white rounded-[2.5rem] p-9 shadow-md hover:shadow-xl transition">
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#C8A24D] text-white inline-flex items-center justify-center h-9 md:h-10 px-7 rounded-full text-sm md:text-base shadow-md whitespace-nowrap leading-none">
+          GANESH FESTIVAL
+        </div>
+
+        <h3 className="font-serif font-bold text-xl md:text-2xl text-[#4A3A28] mb-4 mt-3">
+          Sweet Beginnings with Devotion
+        </h3>
+
+        <p className="mb-5">
+          Welcome Lord Ganesha with laddoos prepared with devotion, following
+          time-honored recipes that reflect purity, authenticity, and faith.
+        </p>
+
+        <ul className="space-y-2 text-sm">
+          <li>• Ganesh Chaturthi offerings</li>
+          <li>• Home & society celebrations</li>
+          <li>• Community gifting</li>
+        </ul>
+      </div>
+    </div>
+
+    {/* HEALTH PROMISE */}
+    <div className="relative bg-white rounded-[3rem] p-12 shadow-lg max-w-6xl mx-auto mb-24 text-center">
+      <span className="inline-block mb-4 px-5 py-1 rounded-full bg-[#E6D3A3] text-[#4A3A28] text-sm font-medium">
+        HEALTH-FOCUSED FESTIVE GIFTING
+      </span>
+
+      <h3 className="font-serif font-bold text-3xl text-[#4A3A28] mb-5">
+        Because Celebration Should Feel Good Too
+      </h3>
+
+      <p className="mb-8 max-w-4xl mx-auto">
+        LADOOZI offers festive gifting options made without refined sugar,
+        naturally sweetened with dates and jaggery — so every age group can
+        celebrate without compromise.
+      </p>
+
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm font-medium">
+        <div>✔ No refined sugar</div>
+        <div>✔ Dates & jaggery sweetened</div>
+        <div>✔ Premium dry fruits</div>
+        <div>✔ Safe for all age groups</div>
+      </div>
+    </div>
+
+    
+
+  </div>
+</section>
+
+
+{/* TRUST STRIP */}
+<section className="bg-[#FFF8F1] py-12">
+  <div className="max-w-6xl mx-auto px-4 text-center">
+    
+    <h3 className="font-serif font-bold text-2xl md:text-3xl text-[#4A3A28] mb-3">
+      Why Families & Corporates Trust LADOOZI
+    </h3>
+
+    <p className="text-[#6B5A46] mb-10">
+      Crafted with purity, delivered with care
+    </p>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+      {/* Card 1 */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+        <div className="text-[#8B5E34] mx-auto mb-4 w-fit"><FaHome size={32} /></div>
+        <h4 className="font-semibold text-[#4A3A28] mb-2">
+          100% Homemade
+        </h4>
+        <p className="text-sm text-[#6B5A46]">
+          Freshly handcrafted using traditional family recipes
+        </p>
+      </div>
+
+      {/* Card 2 */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+        <div className="text-[#8B5E34] mx-auto mb-4 w-fit"><FaShieldAlt size={32} /></div>
+        <h4 className="font-semibold text-[#4A3A28] mb-2">
+          Hygienic Preparation
+        </h4>
+        <p className="text-sm text-[#6B5A46]">
+          Prepared in small batches with strict hygiene standards
+        </p>
+      </div>
+
+      {/* Card 3 */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+        <div className="text-[#8B5E34] mx-auto mb-4 w-fit"><FaGift size={32} /></div>
+        <h4 className="font-semibold text-[#4A3A28] mb-2">
+          Custom Festive Boxes
+        </h4>
+        <p className="text-sm text-[#6B5A46]">
+          Thoughtfully curated gifting for festivals & occasions
+        </p>
+      </div>
+
+      {/* Card 4 */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+        <div className="text-[#8B5E34] mx-auto mb-4 w-fit"><FaTruck size={32} /></div>
+        <h4 className="font-semibold text-[#4A3A28] mb-2">
+          Nationwide Delivery
+        </h4>
+        <p className="text-sm text-[#6B5A46]">
+          Multi-address delivery across India with care
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
       {/* ================= BENEFITS ================= */}
-      <section id="benefits" className="bg-[#F7F2EA] py-20">
-        <div className="container-max">
-          <h2 className="text-2xl font-serif font-bold text-[#4A3A28] mb-12 text-center">
-            Health & Tradition in Every Bite
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10">
-            {[
-              ["✨ Dink Ladoo", "Strength, stamina & winter immunity"],
-              ["✨ Besan Ladoo", "Energy, digestion & healthy fats"],
-              ["✨ Ravanaral Ladoo", "Light, aromatic & easy to digest"],
-            ].map(([title, desc]) => (
-              <div key={title} className="bg-white rounded-2xl p-8 shadow-sm text-center">
-                <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{title}</h3>
-                <p>{desc}</p>
+      <section id="benefits" className="relative py-24 bg-[#F7F2EA]">
+        {/* subtle texture */}
+        <div className="absolute inset-0 bg-[url('/patterns/indian-swirls.svg')] opacity-[0.04]" />
+
+        <div className="container-max relative">
+          {/* Heading */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-block mb-3 px-4 py-1 rounded-full bg-[#E6D3A3] text-[#4A3A28] text-xs font-medium tracking-wide">
+              OUR BENEFITS
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#4A3A28]">
+              Health & Tradition in Every Bite
+            </h2>
+            <div className="mx-auto mt-4 h-1 w-24 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4] rounded-full" />
+            <p className="mt-5 text-sm md:text-base text-[#6B5A46]">
+              Crafted using time-honoured methods, premium ingredients and pure desi ghee.
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
+            {benefitItems.map(({ title, desc, Icon }) => (
+              <div
+                key={title as string}
+                className="group relative rounded-3xl bg-white/90 backdrop-blur p-8 border border-[#E6DCCB] shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition"
+              >
+                {/* accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+
+                {/* icon bubble */}
+                <div className="mx-auto -mt-6 mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#FBF8F3] border border-[#E6DCCB] shadow-sm">
+                  <Icon className="text-[#C8A24D]" size={20} />
+                </div>
+
+                <h3 className="text-lg font-semibold text-[#4A3A28] mb-2 text-center">{title}</h3>
+                <p className="text-sm text-[#6B5A46] text-center leading-relaxed" aria-label={`${title} benefit description`}>
+                  {desc}
+                </p>
+
               </div>
             ))}
           </div>
         </div>
-        
       </section>
+
+      {/* ================= CORPORATE GIFTING ================= */}
+<section className="container-max py-20">
+  <div className="bg-white rounded-3xl shadow-md p-8 md:p-12">
+    <h2 className="text-3xl font-serif font-bold text-[#4A3A28] mb-4 text-center">
+      Corporate Gifting Solutions
+    </h2>
+
+    <p className="text-center max-w-3xl mx-auto mb-8">
+      Make every gesture memorable. Whether gifting employees, clients, partners,
+      or extended teams, LADOOZI delivers exquisite handcrafted laddoos with
+      hassle-free multi-address shipping.
+    </p>
+
+    <div className="grid md:grid-cols-2 gap-10">
+      {/* CONTACT INFO */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg text-[#4A3A28]">
+          Contact for more details
+        </h3>
+        <p><strong>Email:</strong> <br />ladoozi@gmail.com<br />Info@ladoozi.com</p>
+        
+        <p><strong>WhatsApp: <br /></strong> 9881902097</p>
+      </div>
+
+      {/* SIMPLE FORM */}
+      <form className="space-y-4">
+        <input
+          type="text"
+          placeholder="Client Name"
+          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
+        />
+        <textarea
+          placeholder="Message"
+          rows={4}
+          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
+        />
+        <button
+          type="button"
+          className="bg-[#C8A24D] hover:bg-[#B8963D] text-white px-6 py-3 rounded-full font-semibold transition"
+        >
+          Submit Enquiry
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+
       <StoreFooter/>
     </div>
   );
