@@ -6,6 +6,7 @@ import StoreHeader from "./components/store/StoreHeader";
 import StoreFooter from "./components/store/StoreFooter";
 import { FaHome, FaShieldAlt, FaGift, FaTruck } from "react-icons/fa";
 import { Dumbbell, Wheat, Feather } from "lucide-react";
+import ContactPage from "./contact/page";
 
 /* ---------------- TYPES ---------------- */
 type Product = {
@@ -457,41 +458,67 @@ export default function HomePage() {
       hassle-free multi-address shipping.
     </p>
 
-    <div className="grid md:grid-cols-2 gap-10">
+    <div className="grid md:grid-cols-2 gap-10 items-start">
       {/* CONTACT INFO */}
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg text-[#4A3A28]">
-          Contact for more details
-        </h3>
-        <p><strong>Email:</strong> <br />ladoozi@gmail.com<br />Info@ladoozi.com</p>
-        
-        <p><strong>WhatsApp: <br /></strong> 9881902097</p>
+      <div>
+        <div className="rounded-2xl border border-[#E6DCCB] bg-white p-6 shadow-sm">
+          <h3 className="font-semibold text-lg text-[#4A3A28] mb-4">Contact for more details</h3>
+          <div className="space-y-4">
+            {/* Email block */}
+            <div className="flex items-start gap-3 p-3 rounded-xl border border-[#E6DCCB] bg-[#FBF8F3]">
+              <div className="mt-0.5 text-[#C8A24D]" aria-hidden>
+                {/* Mail icon */}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="m22 8-10 6L2 8" stroke="currentColor" strokeWidth="1.5" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs text-[#6B5A46]">Email</p>
+                <div className="font-medium text-[#4A3A28] leading-relaxed">
+                  <p className="break-all">ladoozi@gmail.com</p>
+                  <p className="break-all">Info@ladoozi.com</p>
+                </div>
+              </div>
+            </div>
+            {/* WhatsApp block */}
+            <div className="flex items-start gap-3 p-3 rounded-xl border border-[#E6DCCB] bg-[#FBF8F3]">
+              <div className="mt-0.5 text-[#25D366]" aria-hidden>
+                {/* WhatsApp icon */}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 11.5c0 4.694-3.806 8.5-8.5 8.5a8.45 8.45 0 0 1-4.02-1.017L4 21l1.017-3.48A8.45 8.45 0 0 1 3.5 11.5C3.5 6.806 7.306 3 12 3s8 3.806 8 8.5Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M9.5 8.5c0 3 3 6 5.5 6 .3 0 .6-.05.9-.15.2-.07.5.08.6.28.14.28.5 1.02.5 1.12 0 .2-.4.7-1 1-1 .5-2 .5-3 .3-3.2-.6-6.3-3.7-6.9-6.9-.2-1 0-2 .3-3 .3-.6.8-1 1-1 .1 0 .9.36 1.17.51.2.1.35.4.28.6-.1.3-.15.6-.15.9Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs text-[#6B5A46]">WhatsApp</p>
+                <p className="font-medium text-[#4A3A28] leading-relaxed">9881902097</p>
+              </div>
+            </div>
+            {/* CTA buttons */}
+            <div className="flex gap-3 pt-1">
+              <a
+                href={`https://wa.me/919881902097?text=${encodeURIComponent('Hello! I would like to inquire about Corporate Gifting with LADOOZI.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-[#25D366] text-[#0b3b22] bg-[#e9f9ef] hover:bg-[#d6f3e1] transition"
+              >
+                <span>WhatsApp</span>
+              </a>
+              <a
+                href={`mailto:info@ladoozi.com?subject=${encodeURIComponent('Corporate Gifting Inquiry')}`}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-[#E6DCCB] text-[#4A3A28] bg-white hover:bg-[#FBF8F3] transition"
+              >
+                <span>Email Us</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* SIMPLE FORM */}
-      <form className="space-y-4">
-        <input
-          type="text"
-          placeholder="Client Name"
-          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
-        />
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
-        />
-        <textarea
-          placeholder="Message"
-          rows={4}
-          className="w-full border border-[#E6DCCB] rounded-xl px-4 py-3"
-        />
-        <button
-          type="button"
-          className="bg-[#C8A24D] hover:bg-[#B8963D] text-white px-6 py-3 rounded-full font-semibold transition"
-        >
-          Submit Enquiry
-        </button>
-      </form>
+      <div className="rounded-2xl border border-[#E6DCCB] bg-white p-4 md:p-6 shadow-sm">
+        <ContactPage />
+      </div>
     </div>
   </div>
 </section>

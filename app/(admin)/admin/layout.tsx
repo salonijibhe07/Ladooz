@@ -53,6 +53,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             Banners
           </Link>
+          <Link
+            className="block px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-white/10 hover:text-white transition"
+            href="/admin/messages"
+          >
+            Messages
+          </Link>
         </nav>
       </aside>
 
