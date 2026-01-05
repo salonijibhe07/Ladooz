@@ -12,6 +12,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
         <nav className="px-3 pb-6 space-y-1">
           <Link
+  className="block px-3 py-2 rounded-md text-sm font-medium text-gray-200 bg-white/5 hover:bg-white/10 hover:text-white transition"
+  href="/"
+>
+  ← Go to Home
+</Link>
+
+          <Link
             className="block px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-white/10 hover:text-white transition"
             href="/admin"
           >
@@ -41,12 +48,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             Coupons
           </Link>
-          <Link
+          {/* <Link
             className="block px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-white/10 hover:text-white transition"
             href="/admin/settings"
           >
             Settings
-          </Link>
+          </Link> */}
           <Link
             className="block px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-white/10 hover:text-white transition"
             href="/admin/banners"

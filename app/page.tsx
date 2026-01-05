@@ -81,6 +81,22 @@ export default function HomePage() {
     
     <div className="min-h-screen bg-[#FBF8F3] text-[#6B563A]">
       <StoreHeader categories={categories} initialSearch="" />
+       {/* ================= CATEGORY STRIP ================= */}
+      <div className="bg-white border-b border-[#E6DCCB]">
+        <div className="container-max">
+          <div className="flex items-center gap-6 py-3 overflow-x-auto text-sm">
+            {categories.slice(0, 12).map((category) => (
+              <Link
+                key={category.id}
+                href={`/products?category=${category.slug}`}
+                className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+              >
+                {category.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
       {/* ================= HERO ================= */}
  {/* ================= HERO (Centered Text on Image) ================= */}
 <section className="relative py-24">
@@ -320,9 +336,9 @@ export default function HomePage() {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm font-medium">
         <div>✔ No refined sugar</div>
-        <div>✔ Dates & jaggery sweetened</div>
-        <div>✔ Premium dry fruits</div>
-        <div>✔ Safe for all age groups</div>
+        <div>✔ Sweetened naturally with dates & jaggery</div>
+        <div>✔ Made with premium dry fruits & wholesome ingredients</div>
+        <div>✔ Suitable for kids, elders, and health-conscious individuals</div>
       </div>
     </div>
 

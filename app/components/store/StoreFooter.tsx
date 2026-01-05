@@ -5,8 +5,10 @@ export default function StoreFooter() {
   const year = new Date().getFullYear();
 
   return (
+    
     <footer className="bg-[#2F2418] text-[#E9DEC8]">
       <div className="container-max px-4 py-14">
+        
         {/* TOP GRID */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {/* ABOUT */}
@@ -42,12 +44,12 @@ export default function StoreFooter() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/privacy" className="hover:text-white transition">
+                <Link href="/Privacy" className="hover:text-white transition">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white transition">
+                <Link href="/Terms&Conditions" className="hover:text-white transition">
                   Terms & Conditions
                 </Link>
               </li>

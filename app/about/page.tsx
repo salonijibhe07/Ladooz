@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Heart, Sparkles, Phone, Mail, MapPin, ChevronDown, Package, Award, Leaf, Users, Star, Shield, Clock, Gift, Flame, Hand, Target, Home, Droplet, Smile } from 'lucide-react';
 import StoreFooter from '../components/store/StoreFooter';
 import StoreHeader, { type StoreHeaderCategory } from '../components/store/StoreHeader';
+import ContactPage from '../contact/page';
 function ContactForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -529,7 +530,7 @@ export default function LadooziPage() {
           <div className="grid md:grid-cols-2 gap-8 items-stretch mt-12">
             <div className="bg-white rounded-2xl shadow-lg border-2 border-amber-200 p-6 md:p-8">
               <h3 className="text-2xl font-bold text-amber-900 mb-4">Send us a message</h3>
-              <ContactForm />
+               <ContactPage />
             </div>
             <div className="text-center space-y-3 bg-white p-6 rounded-2xl shadow-md border border-amber-200 h-full flex flex-col justify-center">
               <p className="text-gray-700 text-lg font-medium">

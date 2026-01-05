@@ -82,12 +82,7 @@ export default function AdminDashboard() {
             </p>
           </div>
 
-          <Link
-            href="/admin/products/new"
-            className="bg-[#C8A24D] hover:bg-[#B8963D] text-white px-5 py-2.5 rounded-full font-medium transition"
-          >
-            + Add Product
-          </Link>
+          
         </div>
       </div>
 

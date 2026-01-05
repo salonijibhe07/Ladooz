@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import StoreHeader, { type StoreHeaderCategory } from "@/app/components/store/StoreHeader";
+import StoreFooter from "@/app/components/store/StoreFooter";
 
 export type WishlistProduct = {
   id: string;
@@ -19,6 +21,20 @@ export type WishlistItem = {
 };
 
 export default function WishlistPage() {
+  const [categories, setCategories] = useState<StoreHeaderCategory[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/categories");
+        const data = await res.json().catch(() => ({}));
+        const cats = (Array.isArray((data as any)?.categories) ? (data as any).categories : []) as Array<{ id: string; name: string; slug: string }>;
+        setCategories(cats.map((c) => ({ id: String(c.id ?? c.slug ?? c.name), name: String(c.name), slug: String(c.slug) })));
+      } catch {
+        setCategories([]);
+      }
+    })();
+  }, []);
   const [items, setItems] = useState<WishlistItem[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +91,9 @@ export default function WishlistPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
+      <StoreHeader categories={categories} />
+      <main className="">
       <div className="max-w-5xl mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">Wishlist</h1>
 
@@ -122,6 +140,8 @@ export default function WishlistPage() {
           </ul>
         )}
       </div>
-    </main>
+      </main>
+      <StoreFooter />
+    </div>
   );
 }

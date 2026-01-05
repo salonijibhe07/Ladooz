@@ -168,22 +168,7 @@ export default function StoreHeader({
         </div>
       </div>
 
-      {/* ================= CATEGORY STRIP ================= */}
-      <div className="bg-white border-b border-[#E6DCCB]">
-        <div className="container-max">
-          <div className="flex items-center gap-6 py-3 overflow-x-auto text-sm">
-            {categories.slice(0, 12).map((category) => (
-              <Link
-                key={category.id}
-                href={`/products?category=${category.slug}`}
-                className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
-              >
-                {category.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+     
     </header>
   );
 }
