@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
-      console.log("Login failed: User not found for email:", trimmedEmail);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 }
@@ -36,14 +35,11 @@ export async function POST(request: NextRequest) {
     const isValidPassword = await bcrypt.compare(trimmedPassword, user.password);
 
     if (!isValidPassword) {
-      console.log("Login failed: Invalid password for email:", trimmedEmail);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 }
       );
     }
-
-    console.log("Login successful for email:", trimmedEmail);
 
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
@@ -70,6 +66,7 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

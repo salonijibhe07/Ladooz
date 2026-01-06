@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log("User registered successfully:", trimmedEmail);
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     // Surface useful error info during development
