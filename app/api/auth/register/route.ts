@@ -5,10 +5,23 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
+    const body = await request.json();
+    const { name, email, password } = body;
+
+    // Trim whitespace from inputs
+    const trimmedEmail = email?.trim();
+    const trimmedPassword = password?.trim();
+    const trimmedName = name?.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPassword) {
+      return NextResponse.json(
+        { error: "All fields are required" },
+        { status: 400 }
+      );
+    }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: trimmedEmail },
     });
 
     if (existingUser) {
@@ -18,12 +31,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(trimmedPassword, 10);
 
     const user = await prisma.user.create({
       data: {
-        name,
-        email,
+        name: trimmedName,
+        email: trimmedEmail,
         password: hashedPassword,
       },
       select: {
@@ -34,6 +47,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log("User registered successfully:", trimmedEmail);
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     // Surface useful error info during development

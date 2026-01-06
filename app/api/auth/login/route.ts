@@ -7,27 +7,43 @@ import { getJwtSecret } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json();
+    const { email, password } = body;
+
+    // Trim whitespace from inputs
+    const trimmedEmail = email?.trim();
+    const trimmedPassword = password?.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: trimmedEmail },
     });
 
     if (!user) {
+      console.log("Login failed: User not found for email:", trimmedEmail);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 }
       );
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(trimmedPassword, user.password);
 
     if (!isValidPassword) {
+      console.log("Login failed: Invalid password for email:", trimmedEmail);
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 }
       );
     }
+
+    console.log("Login successful for email:", trimmedEmail);
 
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },

@@ -19,10 +19,19 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
+      // Trim inputs before sending
+      const trimmedName = name.trim();
+      const trimmedEmail = email.trim();
+      const trimmedPassword = password.trim();
+
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ 
+          name: trimmedName, 
+          email: trimmedEmail, 
+          password: trimmedPassword 
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -37,7 +46,10 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ 
+          email: trimmedEmail, 
+          password: trimmedPassword 
+        }),
       });
 
       if (loginRes.ok) {

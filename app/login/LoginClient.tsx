@@ -19,11 +19,18 @@ export default function LoginClient() {
     setLoading(true);
 
     try {
+      // Trim inputs before sending
+      const trimmedEmail = email.trim();
+      const trimmedPassword = password.trim();
+
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ 
+          email: trimmedEmail, 
+          password: trimmedPassword 
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
