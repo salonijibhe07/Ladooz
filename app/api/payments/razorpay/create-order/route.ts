@@ -30,6 +30,12 @@ export async function POST(request: NextRequest) {
       0
     );
 
+    // Calculate total weight
+    const totalWeight = cartItems.reduce(
+      (sum, item) => sum + (item.product.weight || 0) * item.quantity,
+      0
+    );
+
     let discount = 0;
     let couponCode: string | undefined;
     if (body.couponCode) {
@@ -45,8 +51,14 @@ export async function POST(request: NextRequest) {
     }
 
     const taxableAmount = Math.max(0, subtotal - discount);
-    const tax = taxableAmount * 0.18;
-    const shippingCost = taxableAmount > 500 ? 0 : 40;
+    const tax = 0; // No tax
+    
+    // Shipping logic: Free for Pune, Free for orders above 2kg outside Pune
+    const shippingAddress = body.shippingAddress as any;
+    const city = shippingAddress?.city?.toLowerCase() || '';
+    const isPune = city.includes('pune');
+    const shippingCost = (isPune || totalWeight >= 2) ? 0 : 50; // 50 Rs for orders < 2kg outside Pune
+    
     const total = taxableAmount + tax + shippingCost;
 
     const orderNumber = `ORD${Date.now()}`;

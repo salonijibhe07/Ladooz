@@ -158,29 +158,36 @@ export default function CartPage() {
                   <span>₹{total.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Tax (18%)</span>
-                  <span>₹{(total * 0.18).toLocaleString()}</span>
+                  <span>Tax</span>
+                  <span>₹0</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{total > 500 ? "FREE" : "₹40"}</span>
+                  <span className="text-green-600 font-medium">FREE*</span>
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-xl font-bold">
                     <span>Total</span>
-                    <span>
-                      ₹{(total + total * 0.18 + (total > 500 ? 0 : 40)).toLocaleString()}
-                    </span>
+                    <span>₹{total.toLocaleString()}</span>
                   </div>
+                  <p className="text-xs text-gray-500 mt-2">*Shipping calculated at checkout based on location and weight</p>
                 </div>
               </div>
 
-              <Link
-                href="/checkout"
-                className="block w-full px-6 py-3 bg-primary-500 text-white text-center font-semibold rounded-lg hover:bg-primary-600 transition"
-              >
-                Proceed to Checkout
-              </Link>
+              <div className="space-y-3">
+                <Link
+                  href="/checkout"
+                  className="block w-full px-6 py-3 bg-primary-500 text-white text-center font-semibold rounded-lg hover:bg-primary-600 transition"
+                >
+                  Proceed to Checkout
+                </Link>
+                <Link
+                  href="/products"
+                  className="block w-full px-6 py-3 border text-center font-semibold rounded-lg hover:bg-gray-50 transition"
+                >
+                  Add More Items
+                </Link>
+              </div>
             </div>
           </div>
         </div>

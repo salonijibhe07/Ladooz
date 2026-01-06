@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getUserId } from "@/lib/auth";
+import { calculateCouponDiscount } from "@/lib/coupons";
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const userId = await getUserId(request);
-    const { shippingAddress, paymentMethod } = await request.json();
+    const { shippingAddress, paymentMethod, couponCode: rawCoupon } = await request.json();
 
     const cartItems = await prisma.cartItem.findMany({
       where: { userId },
@@ -45,9 +46,34 @@ export async function POST(request: NextRequest) {
       (sum, item) => sum + item.product.price * item.quantity,
       0
     );
-    const tax = subtotal * 0.18; // 18% GST
-    const shippingCost = subtotal > 500 ? 0 : 40;
-    const total = subtotal + tax + shippingCost;
+
+    // Calculate total weight
+    const totalWeight = cartItems.reduce(
+      (sum, item) => sum + (item.product.weight || 0) * item.quantity,
+      0
+    );
+
+    // Apply coupon if provided
+    let discount = 0;
+    let couponCode: string | undefined;
+    if (rawCoupon) {
+      const res = await calculateCouponDiscount({ couponCode: rawCoupon, subtotal });
+      if (!res.ok) {
+        return NextResponse.json({ error: res.reason }, { status: 400 });
+      }
+      discount = res.discount;
+      couponCode = res.couponCode;
+    }
+
+    const taxableAmount = Math.max(0, subtotal - discount);
+    const tax = 0; // No tax
+    
+    // Shipping logic: Free for Pune, Free for orders above 2kg outside Pune
+    const city = shippingAddress?.city?.toLowerCase() || '';
+    const isPune = city.includes('pune');
+    const shippingCost = (isPune || totalWeight >= 2) ? 0 : 50; // 50 Rs for orders < 2kg outside Pune
+    
+    const total = taxableAmount + tax + shippingCost;
 
     const orderNumber = `ORD${Date.now()}`;
 
@@ -56,6 +82,8 @@ export async function POST(request: NextRequest) {
         userId,
         orderNumber,
         subtotal,
+        discount,
+        couponCode,
         tax,
         shippingCost,
         total,

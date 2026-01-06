@@ -11,7 +11,7 @@ export async function GET() {
         data: {
           siteName: "Flipkart Clone",
           currency: "INR",
-          taxRate: 0.18,
+          taxRate: 0,
         },
       });
     }

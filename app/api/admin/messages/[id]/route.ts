@@ -7,8 +7,8 @@ function validateId(id: unknown): id is string {
 }
 
 /* ========================= GET ========================= */
-export async function GET(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
   try {
     await requireAdmin(request);
@@ -53,8 +53,8 @@ export async function GET(request: NextRequest, context: any) {
 }
 
 /* ========================= PATCH ========================= */
-export async function PATCH(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
   try {
     await requireAdmin(request);
@@ -101,8 +101,8 @@ export async function PUT(request: NextRequest, context: any) {
 }
 
 /* ========================= DELETE ========================= */
-export async function DELETE(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
 
   try {
     await requireAdmin(request);

@@ -51,7 +51,7 @@ async function main() {
       id: "default",
       siteName: "My Store",
       siteDescription: "Demo ecommerce store",
-      taxRate: 0.18,
+      taxRate: 0,
       currency: "INR",
     },
   });

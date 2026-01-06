@@ -85,6 +85,7 @@ model Product {
   price           Float
   comparePrice    Float?
   stock           Int       @default(0)
+  weight          Float     @default(0.5) // weight in kg
   images          String[]
   categoryId      String
   category        Category  @relation(fields: [categoryId], references: [id])

@@ -11,7 +11,11 @@ export async function PUT(
 ) {
   const { id } = await params;
   try {
-    getUserId(request);
+    try {
+      getUserId(request);
+    } catch (authError) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
 
     const body = (await request.json()) as {
       userName?: string;
@@ -55,7 +59,8 @@ export async function PUT(
     });
 
     return NextResponse.json({ review });
-  } catch {
+  } catch (error) {
+    console.error("Error updating review:", error);
     return NextResponse.json({ error: "Failed to update review" }, { status: 500 });
   }
 }
@@ -66,7 +71,11 @@ export async function DELETE(
 ) {
   const { id } = await params;
   try {
-    getUserId(request);
+    try {
+      getUserId(request);
+    } catch (authError) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
 
     const existing = await prisma.review.findUnique({ where: { id } });
     if (!existing) {
@@ -90,7 +99,8 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Review deleted" });
-  } catch {
+  } catch (error) {
+    console.error("Error deleting review:", error);
     return NextResponse.json({ error: "Failed to delete review" }, { status: 500 });
   }
 }

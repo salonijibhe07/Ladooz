@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Search, Edit, Trash2, Eye } from "lucide-react";
+import ImageUpload from "@/app/components/ImageUpload";
 
 // -------------------- Types --------------------
 type Category = { id: string; name: string };
@@ -289,7 +290,7 @@ function ProductForm({ categories, initial, productId, onDone }: { categories: C
         categoryId: form.categoryId,
         brand: form.brand || undefined,
         highlights: form.highlights.split("\n").map((s) => s.trim()).filter(Boolean),
-        images: form.images.split("\n").map((s) => s.trim()).filter(Boolean),
+        images: form.images ? [form.images.trim()] : [],
         active: form.active,
       };
       const url = productId ? `/api/products/${productId}` : "/api/products";
@@ -354,9 +355,15 @@ function ProductForm({ categories, initial, productId, onDone }: { categories: C
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Images (one URL per line)</label>
-          <textarea className="w-full px-3 py-2 border rounded min-h-28" value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} />
+          <ImageUpload
+            value={form.images}
+            onChange={(newUrl) => {
+              setForm({ ...form, images: newUrl });
+            }}
+            label="Product Image"
+          />
         </div>
+        
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Highlights (one per line)</label>
           <textarea className="w-full px-3 py-2 border rounded min-h-28" value={form.highlights} onChange={(e) => setForm({ ...form, highlights: e.target.value })} />

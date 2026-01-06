@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { id } = await params;
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
 
     const order = await prisma.order.findFirst({
       where: { id, userId },
@@ -33,7 +33,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   try {
-    const userId = getUserId(request);
+    const userId = await getUserId(request);
     const { action } = (await request.json().catch(() => ({}))) as {
       action?: "CANCEL";
     };

@@ -125,7 +125,7 @@ export default function AdminCategoriesPage() {
         <table className="w-full">
           <thead className="bg-[#FBF8F3]">
             <tr>
-              {["Name", "Slug", "Parent", "Actions"].map((h) => (
+              {["Name", "Slug", "Parent"].map((h) => (
                 <th
                   key={h}
                   className="px-6 py-4 text-left text-sm font-semibold text-gray-700"
@@ -133,6 +133,9 @@ export default function AdminCategoriesPage() {
                   {h}
                 </th>
               ))}
+              <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
+                Actions
+              </th>
             </tr>
           </thead>
 
@@ -157,19 +160,19 @@ export default function AdminCategoriesPage() {
                 </td>
 
                 <td className="px-6 py-4">
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => {
                         setEditing(c);
                         setShowModal(true);
                       }}
-                      className="p-2 rounded-lg hover:bg-[#FBF8F3] text-[#C8A24D] transition"
+                      className="btn-plain p-2 rounded-lg hover:bg-gray-100 text-black transition"
                     >
                       <Edit size={18} />
                     </button>
                     <button
                       onClick={() => void remove(c.id)}
-                      className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition"
+                      className="btn-plain p-2 rounded-lg hover:bg-gray-100 text-black transition"
                     >
                       <Trash2 size={18} />
                     </button>

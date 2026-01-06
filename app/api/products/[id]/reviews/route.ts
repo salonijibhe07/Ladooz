@@ -38,7 +38,11 @@ export async function POST(
   const { id } = await params;
   try {
     // Auth required to review
-    getUserId(request);
+    try {
+      getUserId(request);
+    } catch (authError) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
 
     const body = (await request.json()) as {
       userName: string;
@@ -48,7 +52,7 @@ export async function POST(
 
     const rating = Number(body.rating);
     if (!body.userName || !body.comment || !Number.isFinite(rating) || rating < 1 || rating > 5) {
-      return NextResponse.json({ error: "Invalid review" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid review data" }, { status: 400 });
     }
 
     const review = await prisma.review.create({
@@ -76,7 +80,8 @@ export async function POST(
     });
 
     return NextResponse.json({ review }, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error("Error creating review:", error);
     return NextResponse.json({ error: "Failed to create review" }, { status: 500 });
   }
 }

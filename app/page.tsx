@@ -82,9 +82,10 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#FBF8F3] text-[#6B563A]">
       <StoreHeader categories={categories} initialSearch="" />
        {/* ================= CATEGORY STRIP ================= */}
-      <div className="bg-white border-b border-[#E6DCCB]">
-        <div className="container-max">
-          <div className="flex items-center gap-6 py-3 overflow-x-auto text-sm">
+      <div className="sticky top-[64px] z-40 bg-white border-b border-[#E6DCCB]">
+
+        <div className="container-max ">
+          <div className="flex items-center gap-6 py-3 overflow-x-auto text-sm" >
             {categories.slice(0, 12).map((category) => (
               <Link
                 key={category.id}
@@ -97,6 +98,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      
       {/* ================= HERO ================= */}
  {/* ================= HERO (Centered Text on Image) ================= */}
 <section className="relative py-24">
@@ -532,6 +534,7 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* CONTACT FORM */}
       <div className="rounded-2xl border border-[#E6DCCB] bg-white p-4 md:p-6 shadow-sm">
         <ContactPage />
       </div>
