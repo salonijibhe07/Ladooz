@@ -7,25 +7,10 @@ import { getJwtSecret } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("Login API called");
-    const body = await request.json();
-    console.log("Body parsed successfully");
-    const { email, password } = body;
-    console.log("Email received:", !!email, "Password received:", !!password);
-
-    // Trim whitespace from inputs
-    const trimmedEmail = email?.trim();
-    const trimmedPassword = password?.trim();
-
-    if (!trimmedEmail || !trimmedPassword) {
-      return NextResponse.json(
-        { error: "Email and password are required" },
-        { status: 400 }
-      );
-    }
+    const { email, password } = await request.json();
 
     const user = await prisma.user.findUnique({
-      where: { email: trimmedEmail },
+      where: { email },
     });
 
     if (!user) {
@@ -35,7 +20,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isValidPassword = await bcrypt.compare(trimmedPassword, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
       return NextResponse.json(
@@ -69,12 +54,6 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("❌ LOGIN ERROR:");
-    console.error(error);
-    if (error instanceof Error) {
-      console.error("Error message:", error.message);
-      console.error("Error stack:", error.stack);
-    }
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
