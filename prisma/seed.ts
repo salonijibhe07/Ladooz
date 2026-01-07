@@ -9,8 +9,16 @@ const prismaClientSingleton = () => {
     throw new Error("Missing DATABASE_URL env var");
   }
 
-  const adapter = new PrismaPg({ connectionString });
-  return new PrismaClient({ adapter });
+  try {
+    const adapter = new PrismaPg({ connectionString });
+    return new PrismaClient({ 
+      adapter,
+      log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    });
+  } catch (error) {
+    console.error("Failed to initialize Prisma client:", error);
+    throw error;
+  }
 };
 
 declare global {
