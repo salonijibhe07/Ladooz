@@ -7,10 +7,35 @@ import { getJwtSecret } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch (jsonError) {
+      return NextResponse.json(
+        { error: "Invalid JSON in request body" },
+        { status: 400 }
+      );
+    }
+
+    const { email, password } = body;
+
+    // Validate input
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof email !== "string" || typeof password !== "string") {
+      return NextResponse.json(
+        { error: "Invalid email or password format" },
+        { status: 400 }
+      );
+    }
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email.trim() },
     });
 
     if (!user) {
