@@ -367,7 +367,7 @@ export default function ProductDetailPage() {
                     className="px-3 py-2 rounded-lg border-2 border-primary-500 text-primary-600 font-medium bg-primary-50"
                     aria-pressed="true"
                   >
-                    Box of 15 (500 g)
+                    Box of 8 Ladoos (200 g)
                   </button>
                 </div>
               </div>
