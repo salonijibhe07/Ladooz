@@ -41,7 +41,7 @@ type ProductFormState = {
   categoryId: string;
   brand?: string;
   highlights: string;
-  images: string;
+  images: string[];
   active: boolean;
 };
 
@@ -56,7 +56,7 @@ function toFormState(p?: ProductDetail | null): ProductFormState {
     categoryId: p?.categoryId ?? "",
     brand: p?.brand ?? "",
     highlights: (p?.highlights ?? []).join("\n"),
-    images: (p?.images ?? []).join("\n"),
+    images: p?.images ?? [],
     active: p?.active ?? true,
   };
 }
@@ -290,7 +290,7 @@ function ProductForm({ categories, initial, productId, onDone }: { categories: C
         categoryId: form.categoryId,
         brand: form.brand || undefined,
         highlights: form.highlights.split("\n").map((s) => s.trim()).filter(Boolean),
-        images: form.images ? [form.images.trim()] : [],
+        images: form.images.filter((url) => url.trim()),
         active: form.active,
       };
       const url = productId ? `/api/products/${productId}` : "/api/products";
@@ -353,21 +353,19 @@ function ProductForm({ categories, initial, productId, onDone }: { categories: C
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <ImageUpload
-            value={form.images}
-            onChange={(newUrl) => {
-              setForm({ ...form, images: newUrl });
-            }}
-            label="Product Image"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Highlights (one per line)</label>
-          <textarea className="w-full px-3 py-2 border rounded min-h-28" value={form.highlights} onChange={(e) => setForm({ ...form, highlights: e.target.value })} />
-        </div>
+      <div>
+        <ImageUpload
+          value={form.images}
+          onChange={(newUrls) => {
+            setForm({ ...form, images: newUrls });
+          }}
+          label="Product Images"
+        />
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Highlights (one per line)</label>
+        <textarea className="w-full px-3 py-2 border rounded min-h-28" value={form.highlights} onChange={(e) => setForm({ ...form, highlights: e.target.value })} />
       </div>
 
       <div className="flex gap-3 pt-2">

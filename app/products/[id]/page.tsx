@@ -469,7 +469,7 @@ export default function ProductDetailPage() {
         )}
 
         {/* Ratings & Reviews */}
-        <div id="reviews" className="bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8">
+        <div id="reviews" className="bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 mb-8">
           <div className="flex items-center gap-3 mb-8">
             <div className="h-10 w-1 bg-primary-500 rounded-full"></div>
             <h2 className="text-3xl font-bold text-gray-900">Ratings & Reviews</h2>
@@ -580,6 +580,7 @@ export default function ProductDetailPage() {
 
         {/* Review Form */}
         <ReviewForm productId={product.id} />
+
       </div>
     </div>
   );
