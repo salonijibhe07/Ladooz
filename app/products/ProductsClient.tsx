@@ -14,6 +14,7 @@ type Product = {
   images: string[];
   ratings: number;
   reviewCount: number;
+  stock: number;
   category?: { name: string; slug: string };
 };
 
@@ -81,6 +82,23 @@ export default function ProductsClient() {
           )}
         </div>
 
+        {/* Show menu card when "All" is selected (no category or search) */}
+        {!category && !search && (
+          <div className="mb-8 flex justify-center">
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden max-w-4xl">
+              <img
+                src="/menu.png"
+                alt="Ladoos Menu Card"
+                className="w-full h-auto object-contain"
+                onError={(e) => {
+                  // Hide image if not found
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+        )}
+
         {loading ? (
           <div className="py-16 text-center text-slate-700">Loading products…</div>
         ) : products.length === 0 ? (
@@ -91,7 +109,7 @@ export default function ProductsClient() {
               <Link
                 key={product.id}
                 href={`/products/${product.id}`}
-                className="card card-hover p-4 group bg-white rounded-lg shadow hover:shadow-lg transition"
+                className="card card-hover p-4 group bg-white rounded-lg shadow hover:shadow-lg transition text-center"
               >
                 <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
                   {product.images?.[0] && (
@@ -107,7 +125,7 @@ export default function ProductsClient() {
                   {product.name}
                 </h3>
 
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center justify-center gap-2 mb-2 flex-wrap">
                   <span className="text-primary-500 font-semibold">
                     ₹{product.price.toLocaleString()}
                   </span>
@@ -123,12 +141,14 @@ export default function ProductsClient() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1 text-xs">
+                <div className="flex flex-col items-center gap-2 text-xs">
                   <div className="bg-primary-500 text-white px-2 py-0.5 rounded flex items-center gap-1">
                     <span>{product.ratings}</span>
                     <span>★</span>
                   </div>
-                  <span className="text-slate-700">({product.reviewCount})</span>
+                  <span className={`text-xs font-medium ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    Qty: {product.stock}
+                  </span>
                 </div>
               </Link>
             ))}

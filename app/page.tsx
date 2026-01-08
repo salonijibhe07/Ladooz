@@ -14,6 +14,7 @@ type Product = {
   name: string;
   price: number;
   images: string[];
+  categoryId: string;
 };
 
 type Category = {
@@ -56,7 +57,7 @@ export default function HomePage() {
     const load = async () => {
       try {
         const [pRes, cRes, bRes] = await Promise.all([
-          fetch("/api/products?limit=9"),
+          fetch("/api/products?limit=100"),
           fetch("/api/categories"),
           fetch("/api/banners"),
         ]);
@@ -77,6 +78,23 @@ export default function HomePage() {
 
   const hero = useMemo(() => banners[0], [banners]);
 
+  // Group products by category
+  const productsByCategory = useMemo(() => {
+    const grouped: Record<string, { category: Category; products: Product[] }> = {};
+    
+    categories.forEach((category) => {
+      const categoryProducts = products.filter((p) => p.categoryId === category.id);
+      if (categoryProducts.length > 0) {
+        grouped[category.id] = {
+          category,
+          products: categoryProducts,
+        };
+      }
+    });
+    
+    return Object.values(grouped);
+  }, [products, categories]);
+
   return (
     
     <div className="min-h-screen bg-[#FBF8F3] text-[#6B563A]">
@@ -86,6 +104,12 @@ export default function HomePage() {
 
         <div className="container-max ">
           <div className="flex items-center gap-6 py-3 overflow-x-auto text-sm" >
+            <Link
+              href="/products"
+              className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+            >
+              All
+            </Link>
             {categories.slice(0, 12).map((category) => (
               <Link
                 key={category.id}
@@ -178,48 +202,58 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= PRODUCTS ================= */}
-      <section className="container-max py-16">
-        <h2 className="text-2xl font-serif font-bold text-[#4A3A28] mb-10 text-center">
-          Signature Ladoos
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition overflow-hidden"
+      {/* ================= PRODUCTS BY CATEGORY ================= */}
+      {productsByCategory.map(({ category, products: categoryProducts }) => (
+        <section key={category.id} className="container-max py-16">
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-2xl font-serif font-bold text-[#4A3A28]">
+              {category.name}
+            </h2>
+            <Link
+              href={`/products?category=${category.slug}`}
+              className="text-sm text-[#C8A24D] hover:text-[#B8963D] font-medium transition"
             >
-              <div className="relative aspect-square bg-[#F7F2EA]">
-                {product.images?.[0] && (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>
-                <p className="font-medium mb-5">₹{product.price} / kg</p>
-                <div className="flex justify-center">
-                  <button
-                    className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition disabled:opacity-60 disabled:cursor-not-allowed"
-                    disabled={!!adding[product.id]}
-                    onClick={() => {
-                      window.location.assign(`/products/${product.id}`);
-                    }}
-                  >
-                    {adding[product.id] ? "Buying..." : "Buy Now"}
-                  </button>
-                  {cartMsg[product.id] && (
-                    <div className="text-xs mt-2 text-[#4A3A28]" role="status">{cartMsg[product.id]}</div>
+              View All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+            {categoryProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition overflow-hidden"
+              >
+                <div className="relative aspect-square bg-[#F7F2EA]">
+                  {product.images?.[0] && (
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   )}
                 </div>
+                <div className="p-6 text-center">
+                  <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>
+                  <p className="font-medium mb-5">₹{product.price} / kg</p>
+                  <div className="flex justify-center">
+                    <button
+                      className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition disabled:opacity-60 disabled:cursor-not-allowed"
+                      disabled={!!adding[product.id]}
+                      onClick={() => {
+                        window.location.assign(`/products/${product.id}`);
+                      }}
+                    >
+                      {adding[product.id] ? "Buying..." : "Buy Now"}
+                    </button>
+                    {cartMsg[product.id] && (
+                      <div className="text-xs mt-2 text-[#4A3A28]" role="status">{cartMsg[product.id]}</div>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      ))}
 
           {/* ================= FESTIVE GIFTING ================= */}
 {/* ================= FESTIVE GIFTING – PREMIUM EXPERIENCE ================= */}
