@@ -13,6 +13,14 @@ export async function GET() {
       orderBy: { name: "asc" },
     });
 
+    console.log("=== CATEGORIES API DEBUG ===");
+    console.log("Total categories:", categories.length);
+    console.log("Categories with product counts:", categories.map(c => ({
+      id: c.id,
+      name: c.name,
+      productCount: c._count.products
+    })));
+
     return NextResponse.json({ categories });
   } catch (error) {
     return NextResponse.json(

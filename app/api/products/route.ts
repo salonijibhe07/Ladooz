@@ -56,6 +56,15 @@ export async function GET(request: NextRequest) {
       prisma.product.count({ where }),
     ]);
 
+    console.log("=== PRODUCTS API DEBUG ===");
+    console.log("Total products found:", total);
+    console.log("Products returned:", products.length);
+    console.log("Sample product categoryIds:", products.slice(0, 3).map(p => ({ 
+      name: p.name, 
+      categoryId: p.categoryId,
+      categoryName: p.category?.name 
+    })));
+
     return NextResponse.json({
       products,
       pagination: {

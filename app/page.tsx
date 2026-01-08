@@ -66,6 +66,12 @@ export default function HomePage() {
         const c = await cRes.json();
         const b = await bRes.json();
 
+        console.log("=== HOME PAGE DEBUG ===");
+        console.log("Products fetched:", p.products?.length || 0);
+        console.log("Categories fetched:", c.categories?.length || 0);
+        console.log("Products data:", p.products?.slice(0, 3)); // Show first 3 products
+        console.log("Categories data:", c.categories);
+
         setProducts(p.products || []);
         setCategories(c.categories || []);
         setBanners(b.banners || []);
@@ -91,6 +97,14 @@ export default function HomePage() {
         };
       }
     });
+    
+    console.log("=== PRODUCTS BY CATEGORY DEBUG ===");
+    console.log("Total categories:", categories.length);
+    console.log("Categories with products:", Object.keys(grouped).length);
+    console.log("Grouped data:", Object.values(grouped).map(g => ({
+      category: g.category.name,
+      productCount: g.products.length
+    })));
     
     return Object.values(grouped);
   }, [products, categories]);
