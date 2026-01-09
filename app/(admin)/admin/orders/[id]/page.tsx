@@ -39,7 +39,6 @@ export default function OrderDetailPage() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [status, setStatus] = useState("");
-  const [trackingNumber, setTrackingNumber] = useState("");
 
   const handleBack = () => {
     // Use history back to preserve scroll position
