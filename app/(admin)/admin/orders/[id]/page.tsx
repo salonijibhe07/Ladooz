@@ -61,7 +61,6 @@ export default function OrderDetailPage() {
       const data = await res.json();
       setOrder(data.order);
       setStatus(data.order.status);
-      setTrackingNumber(data.order.trackingNumber || "");
     } catch (error) {
       console.error("Error fetching order:", error);
     } finally {
@@ -75,7 +74,7 @@ export default function OrderDetailPage() {
       const res = await fetch(`/api/admin/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, trackingNumber }),
+        body: JSON.stringify({ status }),
       });
 
       if (!res.ok) throw new Error("Failed to update order");
@@ -225,17 +224,6 @@ export default function OrderDetailPage() {
                   <option value="delivered">Delivered</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Tracking Number</label>
-                <input
-                  type="text"
-                  value={trackingNumber}
-                  onChange={(e) => setTrackingNumber(e.target.value)}
-                  placeholder="Enter tracking number"
-                  className="w-full border rounded-lg px-3 py-2"
-                />
               </div>
 
               <button
