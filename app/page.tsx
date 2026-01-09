@@ -7,6 +7,7 @@ import StoreFooter from "./components/store/StoreFooter";
 import { FaHome, FaShieldAlt, FaGift, FaTruck } from "react-icons/fa";
 import { Dumbbell, Wheat, Feather } from "lucide-react";
 import ContactPage from "./contact/page";
+import CustomerReview from "./components/store/custorerreview";
 
 /* ---------------- TYPES ---------------- */
 type Product = {
@@ -559,6 +560,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+
+<CustomerReview/>
+      
 
       {/* ================= CORPORATE GIFTING ================= */}
 <section className="container-max py-20">
