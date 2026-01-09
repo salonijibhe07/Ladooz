@@ -125,10 +125,10 @@ export default function OrderDetailPage() {
       {/* Header */}
       <div className="mb-6">
         <button
-          onClick={() => router.push("/admin/orders")}
+          onClick={() => router.back()}
           className="mb-4 text-blue-600 hover:text-blue-800 flex items-center gap-2"
         >
-          ← Back to Orders
+          ← Back
         </button>
         <h1 className="text-3xl font-bold">Order #{order.orderNumber}</h1>
         <p className="text-gray-600 mt-1">
