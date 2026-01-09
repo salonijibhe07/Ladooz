@@ -64,7 +64,7 @@ export default function CustomerReviewsSection() {
 
         {/* Header */}
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#4A3A28] mb-4">
-          💬 What Our Customers Think
+           What Our Customers Think
         </h2>
         <p className="text-[#6B4F2E] text-lg max-w-3xl mx-auto">
           Trusted by <span className="font-semibold">200+ happy customers</span> for
