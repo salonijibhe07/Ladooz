@@ -96,10 +96,10 @@ export default function OrderDetailPage() {
           Order not found
         </div>
         <button
-          onClick={() => router.push("/admin/orders")}
+          onClick={() => router.back()}
           className="mt-4 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
         >
-          Back to Orders
+          Back
         </button>
       </div>
     );
@@ -113,22 +113,16 @@ export default function OrderDetailPage() {
     cancelled: "bg-red-100 text-red-800",
   };
 
-  const paymentStatusColors: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-800",
-    paid: "bg-green-100 text-green-800",
-    failed: "bg-red-100 text-red-800",
-    refunded: "bg-gray-100 text-gray-800",
-  };
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-6">
         <button
-          onClick={() => router.push("/admin/orders")}
+          onClick={() => router.back()}
           className="mb-4 text-blue-600 hover:text-blue-800 flex items-center gap-2"
         >
-          ← Back to Orders
+          ← Back
         </button>
         <h1 className="text-3xl font-bold">Order #{order.orderNumber}</h1>
         <p className="text-gray-600 mt-1">
@@ -207,12 +201,6 @@ export default function OrderDetailPage() {
                 <label className="block text-sm font-medium mb-1">Order Status</label>
                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${statusColors[order.status]}`}>
                   {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                </span>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Payment Status</label>
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${paymentStatusColors[order.paymentStatus]}`}>
-                  {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
                 </span>
               </div>
               <div>
