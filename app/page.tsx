@@ -124,15 +124,30 @@ export default function HomePage() {
             >
               All
             </Link>
-            {categories.slice(0, 12).map((category) => (
-              <Link
-                key={category.id}
-                href={`/products?category=${category.slug}`}
-                className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
-              >
-                {category.name}
-              </Link>
-            ))}
+            <Link
+              href="/products?category=plant-based-ladoo-vegan"
+              className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+            >
+              Plant Based Ladoo (Vegan)
+            </Link>
+            <Link
+              href="/products?category=signature-ladoo"
+              className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+            >
+              Signature Ladoo
+            </Link>
+            <Link
+              href="/products?category=corporate-packs"
+              className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+            >
+              Corporate Packs
+            </Link>
+            <Link
+              href="/products?category=festive-gifting"
+              className="whitespace-nowrap font-medium text-[#6B563A] hover:text-[#C8A24D] transition"
+            >
+              Festive Gifting
+            </Link>
           </div>
         </div>
       </div>
@@ -199,25 +214,59 @@ export default function HomePage() {
           Explore Our Range
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/products?category=${category.slug}`}
-              className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
-            >
-              <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
-              <div className="p-5 text-center">
-                <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
-                  {category.name}
-                </p>
-              </div>
-            </Link>
-          ))}
+          <Link
+            href="/products?category=plant-based-ladoo-vegan"
+            className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
+          >
+            <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+            <div className="p-5 text-center">
+              <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
+                Plant Based Ladoo (Vegan)
+              </p>
+            </div>
+          </Link>
+          <Link
+            href="/products?category=signature-ladoo"
+            className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
+          >
+            <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+            <div className="p-5 text-center">
+              <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
+                Signature Ladoo
+              </p>
+            </div>
+          </Link>
+          <Link
+            href="/products?category=corporate-packs"
+            className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
+          >
+            <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+            <div className="p-5 text-center">
+              <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
+                Corporate Packs
+              </p>
+            </div>
+          </Link>
+          <Link
+            href="/products?category=festive-gifting"
+            className="bg-white rounded-2xl border border-[#E6DCCB] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition"
+          >
+            <div className="h-1.5 bg-gradient-to-r from-[#EBDCB4] via-[#C8A24D] to-[#EBDCB4]" />
+            <div className="p-5 text-center">
+              <p className="font-semibold text-[#4A3A28] inline-block border-b border-transparent hover:border-[#C8A24D] transition truncate">
+                Festive Gifting
+              </p>
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* ================= PRODUCTS BY CATEGORY ================= */}
-      {productsByCategory.map(({ category, products: categoryProducts }) => (
+      {/* ================= PRODUCTS BY CATEGORY (Plant Based & Signature Only) ================= */}
+      {productsByCategory
+        .filter(({ category }) => 
+          category.slug === "plant-based-ladoo-vegan" || category.slug === "signature-ladoo"
+        )
+        .map(({ category, products: categoryProducts }) => (
         <section key={category.id} className="container-max py-16">
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-2xl font-serif font-bold text-[#4A3A28]">
