@@ -199,29 +199,6 @@ export default function OrderDetailPage() {
             </div>
           </div>
 
-          {/* Order Status */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">Status</h2>
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">Order Status</label>
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${statusColors[order.status]}`}>
-                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                </span>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Payment Status</label>
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${paymentStatusColors[order.paymentStatus]}`}>
-                  {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
-                </span>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Payment Method</label>
-                <p className="text-gray-700">{order.paymentMethod}</p>
-              </div>
-            </div>
-          </div>
-
           {/* Update Order */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold mb-4">Update Order</h2>
