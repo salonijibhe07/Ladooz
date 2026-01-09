@@ -64,7 +64,6 @@ async function main() {
     },
   });
 
-<<<<<<< HEAD
   // LADOOZI Categories
   const dinkLadoo = await prisma.category.upsert({
     where: { slug: "dink-ladoo" },
@@ -134,46 +133,6 @@ async function main() {
       highlights: ["Made with pure desi ghee", "Rich in edible gum (dink)", "Boosts immunity", "Perfect for winters"],
       featured: true,
       active: true,
-=======
-  // Create the 4 main categories for LADOOZI
-  await prisma.category.upsert({
-    where: { slug: "plant-based-ladoo-vegan" },
-    update: {},
-    create: {
-      name: "Plant Based Ladoo (Vegan)",
-      slug: "plant-based-ladoo-vegan",
-      description: "Vegan ladoos made with plant-based ingredients",
-    },
-  });
-
-  await prisma.category.upsert({
-    where: { slug: "signature-ladoo" },
-    update: {},
-    create: {
-      name: "Signature Ladoo",
-      slug: "signature-ladoo",
-      description: "Our signature ladoo collection",
-    },
-  });
-
-  await prisma.category.upsert({
-    where: { slug: "corporate-packs" },
-    update: {},
-    create: {
-      name: "Corporate Packs",
-      slug: "corporate-packs",
-      description: "Perfect for corporate gifting",
-    },
-  });
-
-  await prisma.category.upsert({
-    where: { slug: "festive-gifting" },
-    update: {},
-    create: {
-      name: "Festive Gifting",
-      slug: "festive-gifting",
-      description: "Special ladoos for festive occasions",
->>>>>>> 6372857 (changes added)
     },
   });
 
