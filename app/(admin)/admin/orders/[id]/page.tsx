@@ -41,6 +41,16 @@ export default function OrderDetailPage() {
   const [status, setStatus] = useState("");
   const [trackingNumber, setTrackingNumber] = useState("");
 
+  const handleBack = () => {
+    // Use history back to preserve scroll position
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      // Fallback to dashboard if no history
+      router.push("/admin");
+    }
+  };
+
   useEffect(() => {
     fetchOrder();
   }, [orderId]);
@@ -96,10 +106,10 @@ export default function OrderDetailPage() {
           Order not found
         </div>
         <button
-          onClick={() => router.push("/admin/orders")}
+          onClick={handleBack}
           className="mt-4 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
         >
-          Back to Orders
+          Back
         </button>
       </div>
     );
@@ -125,7 +135,7 @@ export default function OrderDetailPage() {
       {/* Header */}
       <div className="mb-6">
         <button
-          onClick={() => router.back()}
+          onClick={handleBack}
           className="mb-4 text-blue-600 hover:text-blue-800 flex items-center gap-2"
         >
           ← Back
