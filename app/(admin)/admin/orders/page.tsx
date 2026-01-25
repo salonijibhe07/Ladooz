@@ -20,7 +20,6 @@ export default function AdminOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const fetchOrders = async () => {
     try {
@@ -36,19 +35,6 @@ export default function AdminOrders() {
     fetchOrders();
   }, []);
 
-  const updateOrder = async (orderId: string, data: { status?: string; trackingNumber?: string }) => {
-    try {
-      await fetch(`/api/admin/orders/${orderId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      fetchOrders();
-      if (selectedOrder?.id === orderId) setSelectedOrder(null);
-    } catch {
-      console.error("Failed to update order");
-    }
-  };
 
   const filteredOrders = useMemo(() => {
     return orders.filter((order) => {
@@ -158,12 +144,12 @@ export default function AdminOrders() {
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4">
-                  <button
-                    onClick={() => setSelectedOrder(order)}
+                  <a
+                    href={`/admin/orders/${order.id}`}
                     className="flex items-center gap-1 text-primary-600 hover:text-primary-800 font-medium"
                   >
-                    <Eye size={16} /> View
-                  </button>
+                    <Eye size={16} /> View Details
+                  </a>
                 </td>
               </tr>
             ))}
@@ -174,99 +160,6 @@ export default function AdminOrders() {
         )}
       </div>
 
-      {/* Order Modal */}
-      {selectedOrder && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => setSelectedOrder(null)}
-        >
-          <div
-            className="bg-white rounded-lg p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Order #{selectedOrder.orderNumber}</h3>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Customer & Status */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              <div>
-                <h4 className="font-semibold mb-2">Customer Details</h4>
-                <p className="text-gray-700">{selectedOrder.user.name}</p>
-                <p className="text-gray-600 text-sm">{selectedOrder.user.email}</p>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-semibold mb-2">Order Status</h4>
-                  <select
-                    value={selectedOrder.status}
-                    onChange={(e) => updateOrder(selectedOrder.id, { status: e.target.value })}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 w-full"
-                  >
-                    <option value="PENDING">Pending</option>
-                    <option value="CONFIRMED">Confirmed</option>
-                    <option value="PROCESSING">Processing</option>
-                    <option value="SHIPPED">Shipped</option>
-                    <option value="DELIVERED">Delivered</option>
-                    <option value="CANCELLED">Cancelled</option>
-                  </select>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Tracking Number</h4>
-                  <input
-                    type="text"
-                    value={selectedOrder.trackingNumber || ""}
-                    onChange={(e) =>
-                      updateOrder(selectedOrder.id, { trackingNumber: e.target.value })
-                    }
-                    placeholder="Enter tracking number"
-                    className="px-4 py-2 border border-gray-300 rounded-lg w-full focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Items */}
-            <div className="mb-6">
-              <h4 className="font-semibold mb-3">Order Items</h4>
-              <div className="space-y-3">
-                {selectedOrder.items.map((item) => (
-                  <div key={item.id} className="flex items-center gap-4 border-b pb-3 hover:bg-gray-50 rounded">
-                    <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden">
-                      {item.product.images[0] && (
-                        <img
-                          src={item.product.images[0]}
-                          alt={item.product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium">{item.product.name}</p>
-                      <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                    </div>
-                    <p className="font-semibold">₹{(item.price * item.quantity).toLocaleString()}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Total */}
-            <div className="border-t pt-4">
-              <div className="flex justify-between text-xl font-bold">
-                <span>Total</span>
-                <span>₹{selectedOrder.total.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

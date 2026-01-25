@@ -25,6 +25,7 @@ export default function ShopHomepage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
   const fetchProducts = async () => {
     try {
@@ -49,7 +50,58 @@ export default function ShopHomepage() {
   useEffect(() => {
     fetchProducts();
     fetchCategories();
+    fetchWishlist();
   }, []);
+
+  const fetchWishlist = async () => {
+    try {
+      const res = await fetch("/api/wishlist");
+      const data = await res.json();
+      setWishlist(new Set((data.items || []).map((item: any) => item.productId)));
+    } catch (error) {
+      console.error("Failed to fetch wishlist");
+    }
+  };
+
+  const toggleWishlist = async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isInWishlist = wishlist.has(productId);
+    
+    setWishlist(prev => {
+      const newSet = new Set(prev);
+      if (isInWishlist) {
+        newSet.delete(productId);
+      } else {
+        newSet.add(productId);
+      }
+      return newSet;
+    });
+    
+    try {
+      if (isInWishlist) {
+        await fetch(`/api/wishlist?productId=${productId}`, { method: "DELETE" });
+      } else {
+        await fetch("/api/wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId }),
+        });
+      }
+    } catch (error) {
+      setWishlist(prev => {
+        const newSet = new Set(prev);
+        if (isInWishlist) {
+          newSet.add(productId);
+        } else {
+          newSet.delete(productId);
+        }
+        return newSet;
+      });
+      console.error("Failed to update wishlist:", error);
+    }
+  };
 
   const calculateDiscount = (price: number, comparePrice?: number) => {
     if (!comparePrice) return 0;
@@ -186,7 +238,7 @@ export default function ShopHomepage() {
                 href={`/products/${product.id}`}
                 className="border rounded-xl p-4 hover:shadow-lg transition group bg-white"
               >
-                <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden relative">
                   {product.images[0] && (
                     <img
                       src={product.images[0]}
@@ -194,6 +246,36 @@ export default function ShopHomepage() {
                       className="w-full h-full object-cover group-hover:scale-110 transition"
                     />
                   )}
+                  <button
+                    onClick={(e) => toggleWishlist(e, product.id)}
+                    className="wishlist-heart-btn"
+                    aria-label="Add to wishlist"
+                    style={{
+                      position: 'absolute',
+                      top: '6px',
+                      right: '6px',
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      border: '1px solid rgba(0,0,0,0.05)',
+                      padding: '5px',
+                      margin: '0',
+                      cursor: 'pointer',
+                      outline: 'none',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
+                      borderRadius: '50%',
+                      zIndex: 10,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '30px',
+                      height: '30px',
+                    }}
+                  >
+                    <Heart
+                      size={16}
+                      className={wishlist.has(product.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
+                      strokeWidth={1.5}
+                    />
+                  </button>
                 </div>
                 <h3 className="font-medium text-sm mb-1 line-clamp-2 group-hover:text-primary-600">
                   {product.name}

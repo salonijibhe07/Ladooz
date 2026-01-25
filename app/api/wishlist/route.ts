@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ wishlistItems });
+    return NextResponse.json({ items: wishlistItems });
   } catch (error: any) {
     const message = typeof error?.message === "string" ? error.message : "";
     if (message === "Not authenticated" || message === "Invalid token") {

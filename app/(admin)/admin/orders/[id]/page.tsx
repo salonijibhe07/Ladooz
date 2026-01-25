@@ -74,7 +74,7 @@ export default function OrderDetailPage() {
       const res = await fetch(`/api/admin/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status: status.toUpperCase() }),
       });
 
       if (!res.ok) throw new Error("Failed to update order");
@@ -218,11 +218,12 @@ export default function OrderDetailPage() {
                   onChange={(e) => setStatus(e.target.value)}
                   className="w-full border rounded-lg px-3 py-2"
                 >
-                  <option value="pending">Pending</option>
-                  <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="CONFIRMED">Confirmed</option>
+                  <option value="PROCESSING">Processing</option>
+                  <option value="SHIPPED">Shipped</option>
+                  <option value="DELIVERED">Delivered</option>
+                  <option value="CANCELLED">Cancelled</option>
                 </select>
               </div>
 

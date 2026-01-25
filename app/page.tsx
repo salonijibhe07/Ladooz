@@ -5,7 +5,7 @@ import Link from "next/link";
 import StoreHeader from "./components/store/StoreHeader";
 import StoreFooter from "./components/store/StoreFooter";
 import { FaHome, FaShieldAlt, FaGift, FaTruck } from "react-icons/fa";
-import { Dumbbell, Wheat, Feather } from "lucide-react";
+import { Dumbbell, Wheat, Feather, Heart } from "lucide-react";
 import ContactPage from "./contact/page";
 import CustomerReview from "./components/store/custorerreview";
 
@@ -46,6 +46,7 @@ export default function HomePage() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [adding, setAdding] = useState<Record<string, boolean>>({});
   const [cartMsg, setCartMsg] = useState<Record<string, string | null>>({});
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
   // Benefits icons data (typed to avoid union-inferred tuple issues)
   const benefitItems: { title: string; desc: string; Icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
@@ -57,15 +58,17 @@ export default function HomePage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [pRes, cRes, bRes] = await Promise.all([
+        const [pRes, cRes, bRes, wRes] = await Promise.all([
           fetch("/api/products?limit=100"),
           fetch("/api/categories"),
           fetch("/api/banners"),
+          fetch("/api/wishlist"),
         ]);
 
         const p = await pRes.json();
         const c = await cRes.json();
         const b = await bRes.json();
+        const w = await wRes.json().catch(() => ({ items: [] }));
 
         console.log("=== HOME PAGE DEBUG ===");
         console.log("Products fetched:", p.products?.length || 0);
@@ -76,12 +79,53 @@ export default function HomePage() {
         setProducts(p.products || []);
         setCategories(c.categories || []);
         setBanners(b.banners || []);
+        setWishlist(new Set((w.items || []).map((item: any) => item.productId)));
       } catch (error) {
         console.error("Failed to load home data", error);
       }
     };
     load();
   }, []);
+
+  const toggleWishlist = async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const isInWishlist = wishlist.has(productId);
+    
+    setWishlist(prev => {
+      const newSet = new Set(prev);
+      if (isInWishlist) {
+        newSet.delete(productId);
+      } else {
+        newSet.add(productId);
+      }
+      return newSet;
+    });
+    
+    try {
+      if (isInWishlist) {
+        await fetch(`/api/wishlist?productId=${productId}`, { method: "DELETE" });
+      } else {
+        await fetch("/api/wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId }),
+        });
+      }
+    } catch (error) {
+      setWishlist(prev => {
+        const newSet = new Set(prev);
+        if (isInWishlist) {
+          newSet.add(productId);
+        } else {
+          newSet.delete(productId);
+        }
+        return newSet;
+      });
+      console.error("Failed to update wishlist:", error);
+    }
+  };
 
   const hero = useMemo(() => banners[0], [banners]);
 
@@ -284,9 +328,9 @@ export default function HomePage() {
             {categoryProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition overflow-hidden"
+                className="bg-white rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition"
               >
-                <div className="relative aspect-square bg-[#F7F2EA]">
+                <div className="relative aspect-square bg-[#F7F2EA] rounded-t-3xl overflow-hidden">
                   {product.images?.[0] && (
                     <img
                       src={product.images[0]}
@@ -294,6 +338,36 @@ export default function HomePage() {
                       className="w-full h-full object-cover"
                     />
                   )}
+                  <button
+                    onClick={(e) => toggleWishlist(e, product.id)}
+                    className="wishlist-heart-btn"
+                    aria-label="Add to wishlist"
+                    style={{
+                      position: 'absolute',
+                      top: '6px',
+                      right: '6px',
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      border: '1px solid rgba(0,0,0,0.05)',
+                      padding: '5px',
+                      margin: '0',
+                      cursor: 'pointer',
+                      outline: 'none',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.15)',
+                      borderRadius: '50%',
+                      zIndex: 10,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '30px',
+                      height: '30px',
+                    }}
+                  >
+                    <Heart
+                      size={16}
+                      className={wishlist.has(product.id) ? "fill-red-500 text-red-500" : "text-gray-700"}
+                      strokeWidth={1.5}
+                    />
+                  </button>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>

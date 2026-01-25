@@ -70,9 +70,12 @@ export default function CartPage() {
     if (saved) {
       setAppliedCoupon(saved);
       setCouponInput(saved);
-      // attempt to re-apply against current cart
-      void applyCoupon(saved);
+      // attempt to re-apply against current cart after a delay to ensure cart is loaded
+      setTimeout(() => {
+        void applyCoupon(saved);
+      }, 500);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const applyCoupon = async (code?: string) => {
@@ -128,24 +131,69 @@ export default function CartPage() {
 
   const updateQuantity = async (productId: string, quantity: number) => {
     if (quantity < 1) return;
+    
+    // Optimistic update - update UI immediately
+    setCartItems(prevItems => {
+      const updatedItems = prevItems.map(item => 
+        item.product.id === productId 
+          ? { ...item, quantity }
+          : item
+      );
+      
+      // Calculate new total based on updated items
+      const newTotal = updatedItems.reduce((sum, item) => 
+        sum + (item.product.price * item.quantity), 0
+      );
+      setTotal(newTotal);
+      
+      return updatedItems;
+    });
+    
+    // Re-validate coupon if applied
+    if (appliedCoupon) {
+      void applyCoupon(appliedCoupon);
+    }
+    
     try {
       await fetch("/api/cart", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId, quantity }),
       });
-      void fetchCart();
+      // Don't fetch cart again - we already updated optimistically
+      // void fetchCart();
     } catch {
-      // ignore
+      // If error, revert by fetching from server
+      void fetchCart();
     }
   };
 
   const removeItem = async (productId: string) => {
+    // Optimistic update - remove from UI immediately
+    setCartItems(prevItems => {
+      const updatedItems = prevItems.filter(item => item.product.id !== productId);
+      
+      // Calculate new total
+      const newTotal = updatedItems.reduce((sum, item) => 
+        sum + (item.product.price * item.quantity), 0
+      );
+      setTotal(newTotal);
+      
+      return updatedItems;
+    });
+    
+    // Re-validate coupon if applied
+    if (appliedCoupon) {
+      void applyCoupon(appliedCoupon);
+    }
+    
     try {
       await fetch(`/api/cart?productId=${productId}`, { method: "DELETE" });
-      void fetchCart();
+      // Don't fetch cart again - we already updated optimistically
+      // void fetchCart();
     } catch {
-      // ignore
+      // If error, revert by fetching from server
+      void fetchCart();
     }
   };
 
@@ -180,7 +228,7 @@ export default function CartPage() {
             {cartItems.map((item) => (
               <div key={item.id} className="bg-white rounded-lg p-6 shadow">
                 <div className="flex gap-6">
-                  <div className="w-32 h-32 bg-gray-100 rounded overflow-hidden">
+                  <div className="w-32 h-32 bg-gray-100 rounded overflow-hidden flex-shrink-0">
                     {item.product.images[0] && (
                       <img
                         src={item.product.images[0]}
@@ -190,7 +238,7 @@ export default function CartPage() {
                     )}
                   </div>
 
-                  <div className="flex-1">
+                  <div className="flex-1" style={{ minWidth: 0 }}>
                     <h3 className="text-lg font-semibold mb-2">
                       {item.product.name}
                     </h3>
@@ -199,35 +247,35 @@ export default function CartPage() {
                     </p>
 
                     <div className="flex items-center gap-4">
-                      <div className="flex items-center border rounded">
+                      <div className="flex items-center" style={{ minWidth: '120px' }}>
                         <button
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity - 1)
                           }
-                          className="p-2 hover:bg-gray-100"
+                          className="cart-circle-btn"
                         >
-                          <Minus size={16} />
+                          <Minus size={14} />
                         </button>
-                        <span className="px-4 py-2 font-medium">
+                        <span style={{ padding: '0 12px', minWidth: '40px', textAlign: 'center', display: 'inline-block' }}>
                           {item.quantity}
                         </span>
                         <button
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity + 1)
                           }
-                          className="p-2 hover:bg-gray-100"
                           disabled={item.quantity >= item.product.stock}
+                          className="cart-circle-btn"
                         >
-                          <Plus size={16} />
+                          <Plus size={14} />
                         </button>
                       </div>
 
                       <button
                         onClick={() => removeItem(item.product.id)}
-                        className="flex items-center gap-2 text-red-600 hover:text-red-700"
+                        className="cart-unstyled-btn"
                       >
                         <Trash2 size={18} />
-                        Remove
+                        <span style={{ marginLeft: '8px' }}>Remove</span>
                       </button>
                     </div>
                   </div>

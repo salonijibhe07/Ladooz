@@ -52,8 +52,8 @@ export default function WishlistPage() {
         const data = await res.json().catch(() => ({}));
         throw new Error((data?.error as string) || "Failed to load wishlist");
       }
-      const data = (await res.json()) as { wishlistItems: WishlistItem[] };
-      setItems(data.wishlistItems || []);
+      const data = (await res.json()) as { items: WishlistItem[] };
+      setItems(data.items || []);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Something went wrong";
       setError(msg);
