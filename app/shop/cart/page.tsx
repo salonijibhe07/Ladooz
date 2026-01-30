@@ -84,6 +84,7 @@ export default function CartPage() {
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Shipping (Pune):</strong> Free delivery for Pune.</li>
             <li><strong>Shipping (Outside Pune):</strong> Free delivery for orders above 2 kg.</li>
+            <li><strong>Shipping (Outside Pune):</strong> Shipping charges for orders below 2 kg will be discussed and confirmed at the time of order.</li>
             <li><strong>Returns:</strong> No Return Policy.</li>
             <li><strong>Warranty:</strong> No Warranty.</li>
           </ul>

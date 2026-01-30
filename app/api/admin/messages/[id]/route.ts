@@ -7,11 +7,14 @@ function validateId(id: unknown): id is string {
 }
 
 /* ========================= GET ========================= */
-export async function GET(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   try {
-    await requireAdmin(request);
+    requireAdmin(request);
 
     if (!validateId(id)) {
       return NextResponse.json(
@@ -53,11 +56,14 @@ export async function GET(request: NextRequest, context: any) {
 }
 
 /* ========================= PATCH ========================= */
-export async function PATCH(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   try {
-    await requireAdmin(request);
+    requireAdmin(request);
 
     if (!validateId(id)) {
       return NextResponse.json(
@@ -96,16 +102,22 @@ export async function PATCH(request: NextRequest, context: any) {
 }
 
 /* ========================= PUT (alias) ========================= */
-export async function PUT(request: NextRequest, context: any) {
-  return PATCH(request, context);
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  return PATCH(request, { params });
 }
 
 /* ========================= DELETE ========================= */
-export async function DELETE(request: NextRequest, context: any) {
-  const id = context.params?.id;
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
 
   try {
-    await requireAdmin(request);
+    requireAdmin(request);
 
     if (!validateId(id)) {
       return NextResponse.json(

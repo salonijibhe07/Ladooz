@@ -91,7 +91,7 @@ export default function OrderSuccessPage() {
       "Payment Mode: GPay (UPI)",
     ];
  const text = encodeURIComponent(lines.join("\n"));
-     return `https://wa.me/918308359634?text=${text}`;
+     return `https://wa.me/919881902097?text=${text}`;
   }, [order]);
 
   if (error) {
