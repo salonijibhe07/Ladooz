@@ -86,14 +86,37 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
+    // Validate that name exists and is not empty
+    if (!data.name || typeof data.name !== 'string' || data.name.trim().length === 0) {
+      return NextResponse.json(
+        { error: "Product name is required" },
+        { status: 400 }
+      );
+    }
+
+    // Generate slug from name (handles multi-word names properly)
     const slug = data.name
+      .trim()
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
+    // Check if slug already exists
+    const existingProduct = await prisma.product.findUnique({
+      where: { slug },
+    });
+
+    if (existingProduct) {
+      return NextResponse.json(
+        { error: `A product with a similar name already exists: "${existingProduct.name}"` },
+        { status: 409 }
+      );
+    }
+
     const product = await prisma.product.create({
       data: {
         ...data,
+        name: data.name.trim(),
         slug,
         highlights: data.highlights || [],
         images: data.images || [],
@@ -102,8 +125,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ product }, { status: 201 });
   } catch (error) {
+    console.error("Error creating product:", error);
     return NextResponse.json(
-      { error: "Failed to create product" },
+      { error: error instanceof Error ? error.message : "Failed to create product" },
       { status: 500 }
     );
   }

@@ -40,15 +40,50 @@ export async function PUT(
   try {
     const data = await request.json();
 
+    // If name is being updated, regenerate the slug
+    let updateData = { ...data };
+    if (data.name && typeof data.name === 'string') {
+      const trimmedName = data.name.trim();
+      
+      if (trimmedName.length === 0) {
+        return NextResponse.json(
+          { error: "Product name cannot be empty" },
+          { status: 400 }
+        );
+      }
+
+      // Generate slug from name (handles multi-word names properly)
+      const newSlug = trimmedName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+      // Check if the new slug conflicts with another product
+      const existingProduct = await prisma.product.findUnique({
+        where: { slug: newSlug },
+      });
+
+      if (existingProduct && existingProduct.id !== id) {
+        return NextResponse.json(
+          { error: `A product with a similar name already exists: "${existingProduct.name}"` },
+          { status: 409 }
+        );
+      }
+
+      updateData.name = trimmedName;
+      updateData.slug = newSlug;
+    }
+
     const product = await prisma.product.update({
       where: { id },
-      data,
+      data: updateData,
     });
 
     return NextResponse.json({ product });
   } catch (error) {
+    console.error("Error updating product:", error);
     return NextResponse.json(
-      { error: "Failed to update product" },
+      { error: error instanceof Error ? error.message : "Failed to update product" },
       { status: 500 }
     );
   }
