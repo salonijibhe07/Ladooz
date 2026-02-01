@@ -354,7 +354,7 @@ export default function HomePage() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="font-semibold text-[#4A3A28] text-lg mb-2">{product.name}</h3>
-                  <p className="font-medium mb-5">₹{product.price} / kg</p>
+                  <p className="font-medium mb-5">₹{product.price} (0.5/ kg)</p>
                   <div className="flex justify-center">
                     <button
                       className="px-4 py-2 text-sm bg-[#C8A24D] hover:bg-[#B8963D] text-white rounded-full font-medium transition disabled:opacity-60 disabled:cursor-not-allowed"
