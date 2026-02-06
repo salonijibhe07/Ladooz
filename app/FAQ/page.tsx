@@ -41,15 +41,15 @@ const faqs: FAQSection[] = [
       { q: "Are your ladoos good for pregnant women?", a: "Yes. Dink, Dry Fruit, and Poushtik ladoos are traditionally recommended." },
       { q: "Are your ladoos safe for kids?", a: "Absolutely. For toddlers, smaller portions are recommended." },
       { q: "Do your ladoos help with strength & immunity?", a: "Yes. Ingredients like nuts, jaggery, millets, and dink support energy and immunity." },
-      { q: "Are your products vegan?", a: "No. We use pure desi ghee for traditional taste." },
-      { q: "Are your ladoos gluten-free?", a: "Some varieties like Dry Fruit and Poushtik are gluten-free." },
+      { q: "Are your products vegan?", a: "Yes. We have special Laddos for Vegan." },
+      { q: "Are your ladoos Poushtik?", a: "Some varieties like Dry Fruit and Nachani are Poushtik." },
       { q: "Are your ingredients organic?", a: "We use premium-quality ingredients and organic options wherever possible." },
       { q: "Do your ladoos contain allergens?", a: "Some contain nuts, ghee, or gluten. Please check before ordering." },
       { q: "Do you fry the ladoos?", a: "No. Our ladoos are slow-roasted and hand-rolled." },
-      { q: "Can I get ladoos without ghee?", a: "Traditional ladoos require ghee, but light-ghee options may be suggested." },
+      { q: "Can I get ladoos without ghee?", a: "Yes, We have Vegan Ladoos Option." },
       { q: "Are ladoos suitable for fitness enthusiasts?", a: "Yes! Dry Fruit, Nachani, and Poushtik ladoos are popular for energy." },
       { q: "Are any ladoos suitable for weight loss?", a: "Millet-based ladoos offer clean energy. Portion control is key." },
-      { q: "Do ladoos help postpartum recovery?", a: "Yes. Dink Ladoo is traditionally recommended for postpartum strength." }
+      { q: "Do ladoos help postpartum recovery?", a: "Yes. Dink, Aliv Ladoo is traditionally recommended for postpartum strength." }
     ]
   }
 ];

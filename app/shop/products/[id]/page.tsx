@@ -372,8 +372,8 @@ export default function ProductDetailPage() {
                     aria-pressed="true"
                   >
                     {product?.category?.slug === 'signature-ladoo' 
-                      ? 'Box of 8 Ladoos (500 g)' 
-                      : 'Box of 8 Ladoos (200 g)'}
+                      ? 'Box of 15 Ladoos (500 g)' 
+                      : 'Box of 15 Ladoos (200 g)'}
                   </button>
                 </div>
               </div>
