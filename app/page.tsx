@@ -457,8 +457,8 @@ export default function HomePage() {
               <div>
                 <p className="text-xs text-[#6B5A46]">Email</p>
                 <div className="font-medium text-[#4A3A28] leading-relaxed">
-                  <p className="break-all">ladoozi@gmail.com</p>
-                  <p className="break-all">Info@ladoozi.com</p>
+                  <p className="break-all">ladoozi2025@gmail.com</p>
+                
                 </div>
               </div>
             </div>
@@ -487,7 +487,7 @@ export default function HomePage() {
                 <span>WhatsApp</span>
               </a>
               <a
-                href={`mailto:info@ladoozi.com?subject=${encodeURIComponent('Corporate Gifting Inquiry')}`}
+                href={`mailto:ladoozi2025@gmail.com?subject=${encodeURIComponent('Corporate Gifting Inquiry')}`}
                 className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-[#E6DCCB] text-[#4A3A28] bg-white hover:bg-[#FBF8F3] transition"
               >
                 <span>Email Us</span>

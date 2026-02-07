@@ -20,7 +20,7 @@ interface Order {
   status: string;
   paymentStatus: string;
   paymentMethod: string;
-  trackingNumber?: string;
+  // trackingNumber?: string;
   shippingAddress: any;
   createdAt: string;
   user: {
