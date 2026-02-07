@@ -63,7 +63,7 @@ export default function StoreFooter() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="hover:text-white transition">
+                <Link href="https://www.instagram.com/ladoozi?igsh=MTczY2l4cGQ3aTMyZA==" className="hover:text-white transition">
                   Instagram
                 </Link>
               </li>
